@@ -1,4 +1,4 @@
-= Container development workshop overview
+= Securing GenAI Applications with Guardrails as a Service
 :toc:
 :toc-placement: preamble
 :icons: font
@@ -8,17 +8,16 @@
 
 image::peach-logo.png[PHP Logo]
 
-Peach Happens is Atlantas biggest peach producer and exporter, and has been since the 1955 🍑. It is a family owned company and recently, the granchildren to Anton Peché, has taken over. 
+'Peach Happens' is Atlantas biggest peach producer and has been since the 1955 🍑. It is a family owned company and recently, the granchildren to Anton Peché, have taken over. 
 
-They performed a user research and realized that people are not aware of all the benefits of peaches, or how they can buy peaches from PHP. So they built a customer assistant that is knowledgeable about peaches. 
+They performed a user research and realized that people were not aware of all the benefits of peaches, or how they can buy peaches from PHP. So they built a customer assistant that is knowledgeable about peaches. 
+And in no time, it was a great succes! The assistant got many users and it was reflected in PHP's monthly bills! 
 
-And in no time, it was a great succes! The assistant got many users, and it was reflected in PHP's monthly bills! 
-
-Grandkids got curious and wanted to look at what kind of information that people have been searched on peaches. Maybe there are some golden opportunities for business advertisement?
+Grandkids got curious and wanted to look at what kind of information that people have been searched on peaches. Maybe, there are some golden opportunities for business advertisement?
 
 And they were shocked with the information that people were searching for! They also get recipes for how to make lemon cake! LEMONS! OUTRAGEOUS!
 
-They decided to make sure that the assistant only talks about peaches, and politely refuse the other topics. One of the grandchildren, Lisa Peché, got inspired from a AI-conference
+They decided to make sure that the assistant only talks about peaches, and politely refuse the other topics. One of the grandchildren, Lisa Peché, got inspired from a AI-conference in France
 where they talked about guardrails and blocking unrelated topics. She has decided in order to keep the bot, PeachPal, up and running it needs to be guardrailed and protected. 
 
 
@@ -28,76 +27,13 @@ where they talked about guardrails and blocking unrelated topics. She has decide
 
 == Prologue
 
-By the end of this workshop, you'll have practical container skills to address ACME's deployment challenges:
+Where is PeachPal? 
+PeachPal resides in the OpenShift cluster with the LLM already deployed and hosted in OpenShift AI. The frontend that users use to chat with it is deployed on OpenShift. 
+Currently, however, there are no guardrails protecting around the LLM. Try it out for yourself! 
 
-* Create and manage container images using industry best practices → **ensure consistent deployments across environments**
-* Deploy containerized applications to Red Hat OpenShift efficiently → **demonstrate significantly faster deployment times**
-* Configure application networking and storage for production workloads → **meet client scalability requirements**
-* Implement CI/CD workflows that reduce manual deployment steps → **improve development team efficiency**
-* Troubleshoot common container deployment issues → **maintain reliable production systems**
 
-**Technical outcome**: You'll have hands-on experience with container technology that directly applies to ACME's current challenges.
+[INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.]
 
-**Business benefit**: Proven deployment approach that reduces time-to-market and improves operational reliability.
 
-== Target audience
-This workshop is designed for:
+[ADD ARCHITECTURAL IMAGE OF PEACHPAL AS IT STARTS]
 
-* Software developers who want faster environment provisioning
-* DevOps engineers looking to improve deployment consistency
-* Technical professionals evaluating container adoption
-* Anyone interested in hands-on container development experience
-
-== What you need to succeed
-You should have:
-
-* Basic command line experience (Linux/Unix) - you've used a terminal before
-* Understanding of web application concepts - you know what a web server does
-* Access to a computer with internet connectivity
-* Basic container knowledge and willingness to learn (no prior container experience required)
-
-== ACME Corporation's deployment challenges
-
-**The situation**: ACME Corporation needs to improve deployment efficiency for a client project with specific timeline requirements.
-
-**Project timeline**: Evaluate containerization technology and provide recommendations within the current project cycle.
-
-**Current challenges** (operational pain points):
-
-* **Long provisioning times**: Environment setup takes 2 to 3 weeks → slows down development iterations and client deliveries
-* **Environment inconsistencies**: Applications behave differently across dev, staging, and production → creates debugging overhead and deployment risk
-* **Manual processes**: Deployment requires significant manual intervention → introduces human error and limits scalability
-* **Complex configurations**: Each environment has unique setup requirements → increases maintenance overhead and onboarding time
-
-**The opportunity**: Containerization technology can address these deployment challenges, and you've been selected to evaluate its feasibility for ACME's use case.
-
-**Technical perspective**: "Container technology has proven benefits at other organizations, but I need to evaluate how it would work with our specific applications and infrastructure."
-
-== Your vision of success
-
-If containerization proves effective for ACME's use case, here's the potential technical improvements:
-
-**Immediate improvements** (short-term):
-* **Faster deployments**: Reduce deployment time from weeks to minutes → improve development velocity and client responsiveness
-* **Environment consistency**: Eliminate environment-specific deployment issues → more predictable release cycles
-
-**Strategic benefits** (longer-term):
-* **Better resource utilization**: More efficient infrastructure usage → reduced operational costs
-* **Automated scaling**: Applications can scale based on demand → improved performance during traffic spikes
-* **Improved development workflow**: Developers can focus on features instead of deployment complexity → increased team productivity
-
-**Success metric**: A demonstrable improvement in deployment speed and reliability that can be presented to stakeholders as a viable solution for ACME's operational challenges.
-
-== Common questions
-
-**"Can we containerize existing applications without major changes?"**
-→ Yes. Module 2 demonstrates containerizing ACME's web application without modifying the application code
-
-**"What about security considerations?"**
-→ Module 3 covers security scanning, policies, and compliance features built into container platforms
-
-**"How does this integrate with our current CI/CD pipeline?"**
-→ Module 4 shows integration approaches with existing tools like Jenkins
-
-**"Is container adoption sustainable for our team?"**
-→ The workshop demonstrates practical skills and sustainable practices for ongoing container use
