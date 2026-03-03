@@ -8,30 +8,45 @@
 
 image::peach-logo.png[PHP Logo]
 
-'Peach Happens' is Atlantas biggest peach producer and has been since the 1955 🍑. It is a family owned company and recently, the granchildren to Anton Peché, have taken over. 
+'Peach Happens' is Atlantas biggest peach producer and has been since the 1955 🍑. It is a family owned company started by Anton Peché and recently, his granchildren Lisa and Frank Peché joined the family venture. 
 
-They performed a user research and realized that people were not aware of all the benefits of peaches, or how they can buy peaches from PHP. So they built a customer assistant that is knowledgeable about peaches. 
-And in no time, it was a great succes! The assistant got many users and it was reflected in PHP's monthly bills! 
+The first thing they did was to do marketing research and the results told them that people were not aware of all the benefits of peaches, or how they can buy peaches from PHP.
+In accordance with the times, they decided to apply AI technology and build a customer assistant that was knowledgeable about peaches and could help users buying and getting inspired what to do with peaches.
+Recipies, drinks, food, how to grow them, how to store them, pickle them, bake them etc. 
 
-Grandkids got curious and wanted to look at what kind of information that people have been searched on peaches. Maybe, there are some golden opportunities for business advertisement?
+And in no time, it was a great succes when the assistant, named PeachPal, was deployed. The company made a news about it on their webpage, including it in their modernization strategy.
+The assistant got many, many users interacting with it and it was starting to get reflected in PHP's monthly bills. 
 
-And they were shocked with the information that people were searching for! They also get recipes for how to make lemon cake! LEMONS! OUTRAGEOUS!
+Of course, Frank and Lisa got curious and wanted to have a look at what kind of information that people have been searched on peaches. Maybe, there are some golden opportunities for business advertisement? 
+Or improvement that they could do to the assistant or their business to provide better customer service and products?
 
-They decided to make sure that the assistant only talks about peaches, and politely refuse the other topics. One of the grandchildren, Lisa Peché, got inspired from a AI-conference in France
+However, after going through the logs the results were a bit discouraging. It turns out not all questions were actually about peaches, only about 40% were peach-related. 
+Not only was PeachPal recommending other fruits, but it also discussed non-fruit topics and helped with anything and everything.
+Lisa and Frank quickly realised that this was not gonna hold in the long run.
+
+They decided to make sure that the assistant only talks about peaches, and politely refuse the other topics. Luckily, Lisa Peché, got inspired from a AI-conference
 where they talked about guardrails and blocking unrelated topics. She has decided in order to keep the bot, PeachPal, up and running it needs to be guardrailed and protected. 
 
+This, is where you enter the story. 
 
-**Main Quest!**: Make the assistant stay in its intended topic, peaches! 
 
+**Main Quest** 
+
+Make the assistant stay in its intended topic, peaches! 
 
 == Prologue
 
-Where is PeachPal? 
+**Interacting with PeachPal** 
+
 PeachPal resides in the OpenShift cluster with the LLM already deployed and hosted in OpenShift AI. The frontend that users use to chat with it is deployed on OpenShift. 
-Currently, however, there are no guardrails protecting around the LLM. Try it out for yourself! 
+Currently, however, there are no guardrails protecting around the LLM. 
+
+**First task**
+
+You navigate to the site of PeachPal and start chatting to it, confirming that it indeed does not stay only within the intended topic of peaches:
 
 
-[INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.]
+**INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.**
 
 
 [ADD ARCHITECTURAL IMAGE OF PEACHPAL AS IT STARTS]
