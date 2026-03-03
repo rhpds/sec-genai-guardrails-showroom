@@ -13,6 +13,7 @@ image::peach-logo.png[PHP Logo]
 The first thing they did was to do marketing research and the results told them that people were not aware of all the benefits of peaches, or how they can buy peaches from PHP.
 In accordance with the times, they decided to apply AI technology and build a customer assistant that was knowledgeable about peaches and could help users buying and getting inspired what to do with peaches.
 Recipies, drinks, food, how to grow them, how to store them, pickle them, bake them etc. 
+
 And in no time, it was a great succes when the assistant, named PeachPal, was deployed. The company made a news about it on their webpage, including it in their modernization strategy.
 The assistant got many, many users interacting with it and it was starting to get reflected in PHP's monthly bills. 
 
@@ -30,16 +31,22 @@ This, is where you enter the story.
 
 
 **Main Quest** 
+
 Make the assistant stay in its intended topic, peaches! 
 
 == Prologue
 
-Where is PeachPal? 
+**Interacting with PeachPal** 
+
 PeachPal resides in the OpenShift cluster with the LLM already deployed and hosted in OpenShift AI. The frontend that users use to chat with it is deployed on OpenShift. 
-Currently, however, there are no guardrails protecting around the LLM. Try it out for yourself! 
+Currently, however, there are no guardrails protecting around the LLM. 
+
+**First task**
+
+You navigate to the site of PeachPal and start chatting to it, confirming that it indeed does not stay only within the intended topic of peaches:
 
 
-[INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.]
+**INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.**
 
 
 [ADD ARCHITECTURAL IMAGE OF PEACHPAL AS IT STARTS]
