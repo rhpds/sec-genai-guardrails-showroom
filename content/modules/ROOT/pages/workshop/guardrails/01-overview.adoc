@@ -43,11 +43,17 @@ Currently, however, there are no guardrails protecting around the LLM.
 
 **First task**
 
-You navigate to the site of PeachPal and start chatting to it, confirming that it indeed does not stay only within the intended topic of peaches:
+You navigate to the site of PeachPal and start chatting to it, confirming that it indeed does not stay only within the intended topic of peaches since Rob from marketing bragged
+about how he got it to recommend a vacation schedule for Malaga. 
+
+Take 2 minutes asking questions, and then come back to the instructions. 
+
+**Click**
 
 
 **INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.**
 
 
+It is time to start configuration the of first defence! 
 [ADD ARCHITECTURAL IMAGE OF PEACHPAL AS IT STARTS]
 

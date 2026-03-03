@@ -1,15 +1,21 @@
-= Workshop details
+= A juicy start
 :toc:
 :toc-placement: preamble
 :icons: font
 
-== Timing and schedule
+== To Prompt or not to Prompt
 
-=== Full workshop (4 hours)
-* **Module 1**: Container fundamentals (45 minutes)
-* **Module 2**: Application containerization (90 minutes)
-* **Module 3**: Advanced deployment patterns (90 minutes)
-* **Break time**: 15 minutes between modules
+One of the first layers of safety is known as the system prompt. 
+
+System prompts are specific instructions that LLMs process that includes information about what they should and should not talk about. 
+You can also use it to dictate how the LLM should portray itself, with "talking like a pirate" as a common example, and how information should be delivered to the user. 
+
+You decide to take a look at the current system prompt in order determine wether or not its instructions are sufficient. 
+
+**First quest: Find the current system prompt** 
+
+Since the application is running in OpenShift, its system prompt exist as a configmap so it is easy to view and update without having to rebuild the front end. 
+
 
 === Abbreviated workshop (2 hours)
 * **Module 1**: Container fundamentals (30 minutes)
