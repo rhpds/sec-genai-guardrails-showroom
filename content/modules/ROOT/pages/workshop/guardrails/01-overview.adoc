@@ -1,0 +1,38 @@
+= Securing GenAI Applications with Guardrails as a Service
+:toc:
+:toc-placement: preamble
+:icons: font
+:imagesdir: ./images
+
+== Welcome to Peach Happens Produce (PHP)
+
+image::peach-logo.png[PHP Logo]
+
+'Peach Happens' is Atlantas biggest peach producer and has been since the 1955 🍑. It is a family owned company and recently, the granchildren to Anton Peché, have taken over. 
+
+They performed a user research and realized that people were not aware of all the benefits of peaches, or how they can buy peaches from PHP. So they built a customer assistant that is knowledgeable about peaches. 
+And in no time, it was a great succes! The assistant got many users and it was reflected in PHP's monthly bills! 
+
+Grandkids got curious and wanted to look at what kind of information that people have been searched on peaches. Maybe, there are some golden opportunities for business advertisement?
+
+And they were shocked with the information that people were searching for! They also get recipes for how to make lemon cake! LEMONS! OUTRAGEOUS!
+
+They decided to make sure that the assistant only talks about peaches, and politely refuse the other topics. One of the grandchildren, Lisa Peché, got inspired from a AI-conference in France
+where they talked about guardrails and blocking unrelated topics. She has decided in order to keep the bot, PeachPal, up and running it needs to be guardrailed and protected. 
+
+
+**Main Quest!**: Make the assistant stay in its intended topic, peaches! 
+
+
+== Prologue
+
+Where is PeachPal? 
+PeachPal resides in the OpenShift cluster with the LLM already deployed and hosted in OpenShift AI. The frontend that users use to chat with it is deployed on OpenShift. 
+Currently, however, there are no guardrails protecting around the LLM. Try it out for yourself! 
+
+
+[INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.]
+
+
+[ADD ARCHITECTURAL IMAGE OF PEACHPAL AS IT STARTS]
+
