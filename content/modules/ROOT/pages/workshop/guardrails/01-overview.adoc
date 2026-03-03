@@ -23,7 +23,6 @@ where they talked about guardrails and blocking unrelated topics. She has decide
 
 **Main Quest!**: Make the assistant stay in its intended topic, peaches! 
 
-**The beginning**: 
 
 == Prologue
 
