@@ -1,3 +1,6 @@
 * xref:index.adoc[What is Showroom?]
 * xref:workshop/guardrails/01-overview.adoc[The Beginning]
-* xref:workshop/guardrails/02-details.adoc[The Forbidden Fruits]
+* xref:workshop/guardrails/02-details.adoc[A Juicy Start]
+* xref:workshop/guardrails/03-module-01.adoc[Module3]
+* xref:workshop/guardrails/04-module-02.adoc[Module4]
+* xref:workshop/guardrails/05-module-03.adoc[Module5]
