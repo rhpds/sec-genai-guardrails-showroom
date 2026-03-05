@@ -2,6 +2,7 @@
 :toc:
 :toc-placement: preamble
 :icons: font
+:imagesdir: ../../../supplemental-ui/img/
 
 == To Prompt or not to Prompt
 
@@ -10,12 +11,61 @@ One of the first layers of safety is known as the system prompt.
 System prompts are specific instructions that LLMs process that includes information about what they should and should not talk about. 
 You can also use it to dictate how the LLM should portray itself, with "talking like a pirate" as a common example, and how information should be delivered to the user. 
 
-You decide to take a look at the current system prompt in order determine wether or not its instructions are sufficient. 
+_You decide to take a look at the current system prompt in order determine whether or not its instructions are sufficient._ 
 
-**First quest: Find the current system prompt** 
+== First quest: Find the current system prompt
 
-Since the application is running in OpenShift, its system prompt exist as a configmap so it is easy to view and update without having to rebuild the front end. 
+PeachPal is running in OpenShift, it's system prompt exist as a ConfigMap so it is easy to view and update without having to rebuild the front end. 
+This allows us to make fast changes without disrupting the rest of the application. Clearly, the application developers creating it thought ahead.
 
+_You put it on your to do list to thank them for not having to re-program, build and deploy the container everytime you want to do a small update._
+
+Lets login to OpenShift
+
+
+{openshift_console_url}[OpenShift Console,window=_blank]
+
+image::OCP-login.png[OCP Login]
+
+** username:
++
+[source,text,role=execute,subs="attributes"]
+----
+{user}
+----
+** password :
++
+[source,text,role=execute,subs="attributes"]
+----
+{password}
+----
+
+_You are greated with the following launcher and find it optional to do the tour, you may skip it._ 
+image:launcher.png[Launcher]
+
+Behind the launcher awaits the namespace in which the application is deployed.
+
+_You follow the red bubbles in the below image to get to the configmaps._
+image:step-to-systemprompt.png[Getting there]
+
+
+_Your gaze hovers over the several ConfigMaps(CM) that exist in the namespace. Which one contains the values for PeachPals system prompt?_
+
+_You press that name of the ConfigMap_
+image:configmaps.png[ConfigMap]
+
+_Success! You found the system prompt ConfigMap, and you quickly press the YAML view button to see the system prompt instructions. 
+Your eyes scroll down to the value "prompt", and in plain text you see the LLMs instructions._ 
+image:systemprompt.png[SystemPrompt]
+
+**You gained 50 XP** 
+
+== Second quest: Update the system prompt
+As you have now understood, the instructions "You are a helpful assistant" is extremly lacking and allow for many topics unrelated to peaches. 
+Here, we have the possibility to make a difference. 
+
+Now, we need to add in plain text, more concrete instructions of what it SHOULD talk about and what NOT to talk about.
+It is also needed to instruct the LLM on how to behave and respond if it comes in contact with a forbidden topic. 
 
 === Abbreviated workshop (2 hours)
 * **Module 1**: Container fundamentals (30 minutes)

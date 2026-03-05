@@ -1,5 +1,6 @@
 name: modules
 title: Showroom Collection
-version: ~
+version: master
+start_page: workshop/guardrails/01-overview.adocs
 nav:
   - modules/ROOT/nav.adoc
