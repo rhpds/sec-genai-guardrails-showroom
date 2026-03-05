@@ -43,8 +43,8 @@ Currently, however, there are no guardrails protecting around the LLM.
 
 **First task**
 
-You navigate to the site of PeachPal and start chatting to it, confirming that it indeed does not stay only within the intended topic of peaches since Rob from marketing bragged
-about how he got it to recommend a vacation schedule for Malaga. 
+_You navigate to the site of PeachPal and start chatting to it, confirming that it indeed does not stay only within the intended topic of peaches since Rob from marketing bragged
+about how he got it to recommend a vacation schedule for Malaga._ 
 
 Take 2 minutes asking questions, and then come back to the instructions. 
 
@@ -52,7 +52,18 @@ Take 2 minutes asking questions, and then come back to the instructions.
 
 
 **INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.**
+{peachpal-frontend-url}/§|[][|§∞$£@≈][|§] %&/()=?=)(/&%€#"!≈][|§∞$£])
 
+[TIP]
+====
+If you find yourself without inspiration about questions to ask, ask it to: 
+
+"Recommend me other fruits than peaches"
+
+"Give me a C++ script for a Hello World"
+
+"How do I start an Airbus 350?"
+====
 
 It is time to start configuration the of first defence! 
 [ADD ARCHITECTURAL IMAGE OF PEACHPAL AS IT STARTS]

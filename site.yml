@@ -1,6 +1,6 @@
 ---
 site:
-  title: Showroom Template Demo
+  title: Securing GenAI Applications with Guardrails as a Service
   url: https://github.com/rhpds/showroom_template_nookbag
   start_page: modules::index.adoc
 

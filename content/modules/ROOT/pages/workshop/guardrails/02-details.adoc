@@ -14,7 +14,30 @@ You decide to take a look at the current system prompt in order determine wether
 
 **First quest: Find the current system prompt** 
 
-Since the application is running in OpenShift, its system prompt exist as a configmap so it is easy to view and update without having to rebuild the front end. 
+PeachPal is running in OpenShift, it's system prompt exist as a ConfigMap so it is easy to view and update without having to rebuild the front end. 
+This allows us to make fast changes without disrupting the rest of the application. Clearly, the application developers creating it thought ahead.
+
+_You put it on your to do list to thank them for not having to re-program, build and deploy the container everytime you want to do a small update._
+
+Lets login to OpenShift
+
+
+{openshift_console_url}[OpenShift Console,window=_blank]
+
+image::OCP-login.png[OCP Login]
+
+** username:
++
+[source,text,role=execute,subs="attributes"]
+----
+{user}
+----
+** password :
++
+[source,text,role=execute,subs="attributes"]
+----
+{password}
+----
 
 
 === Abbreviated workshop (2 hours)
