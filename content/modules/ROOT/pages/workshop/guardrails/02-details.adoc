@@ -2,7 +2,6 @@
 :toc:
 :toc-placement: preamble
 :icons: font
-:imagesdir: ../../../supplemental-ui/img/
 
 == To Prompt or not to Prompt
 
@@ -51,7 +50,7 @@ image:step-to-systemprompt.png[Getting there]
 
 _Your gaze hovers over the several ConfigMaps(CM) that exist in the namespace. Which one contains the values for PeachPals system prompt?_
 
-_You press the name of thatjh ConfigMap_
+_You press the name of that ConfigMap_
 image:configmaps.png[ConfigMap]
 
 _Success! You found the system prompt ConfigMap, and you quickly press the YAML view button to see the system prompt instructions. 
@@ -96,6 +95,8 @@ When its ready, you will see "Ready" being 1/1.
 
 That means, it is now time to test the application again by asking it question about non-peach related questions. Take 2 minutes. 
 If you saved the PeachPal user tab, click it. If you didnt, here is the link again. Come back to the instructions when you are satisfied. 
+
+
 {peachpal-frontend-url}/§|[][|§∞$£@≈][|§] %&/()=?=)(/&%€#"!≈][|§∞$£])
 
 [TIP]
