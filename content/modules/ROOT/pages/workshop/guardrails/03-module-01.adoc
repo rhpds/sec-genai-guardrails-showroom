@@ -37,7 +37,7 @@ The LLM, being a "next word predictor" follow semantic goals and not strict hier
 
 First and foremost, a LLM will try to be helpful. By rejecting the allowed topic (saying peaches are bad, or you are allergic, etc) the LLM will try to solve the users problem and by asking after "something else", it will access any other fruit that is not peaches but the most probable. It escapes it's topic constraint.
 
-We could spend weeks on prompt engineering looking for the best combination of system prompt, and it still wouldnt be a 100% guaranteed defence. You could include ALL the fruits by name it shouldnt speak of in the system prompt, and waste valuble compute power.
+We could spend weeks on prompt engineering looking for the best combination of system prompts, and it still wouldnt be a 100% guaranteed defence. You could include ALL the fruits by name it shouldnt speak of in the system prompt, and waste valuble compute power.
 
 
 No, you need something external, outside of the LLM. Something that DOES go by hierchical, deterministic rules. Something like a filter that protects the LLM, that works the same every time, that looks at both output and input. 
@@ -55,9 +55,24 @@ It comes with OpenShift AI, ready to be used. You will be using a specific part 
 Instead of sending the user request directly to the LLM, it will now be sent to TrustyAI first. Here, we have to possbility to add policies and filters for all traffic going in and out. Magical! 
 
 An instance of the guardrail orchestrator has already been deployed for you in your namespace. But you need to change where the frontend sends the traffic. Luckily for you, the PeachPal developers 
-already had planned ahead and built it in as a feature flag to be quickly enabled. You have a good developer team, making your job easier. 
+already had planned ahead and built it in as a feature flag to be quickly enabled. You have a good developer team, making your job easier. Let's find it!
+
+_You press the ConfigMap tab selection in the left hand meny, and then press "peachpal-config"._
+image:select-peachpal-config.png[Select Config]
 
 
+_You press "YAML" and see a variable called "GUARDRAILS_ENABLED". Next to it you see the value 'false'. You change it to 'true' and then press the "Save". All other variables stay the same._ 
+image:enable-guardrails.png[Enable guardrails]
+
+Now that we have changed the ConfigMap for PeachPal, we have to reload the new changes in the same way we did when we updated the system prompt ConfigMap. 
+We have to delete the pod.
+
+_You navigate to the "Pods" tab in the lefthand meny and click it. You identify the pod currently running PeachPal frontend, press the 3 dots and hit "Delete Pod"._
+image:restart-UI-pod.png[Restart Pod]
+image:delete-pod.png[Delete pod]
+
+While we wait for the new pod to become "Ready", and it will not take long, we can have a look at the ConfigMap for the gateway. 
+This is the first place the traffic goes through, and coincidently where the first filter that we are interested in exists.
 
 * Deploy a web application using containers in minutes instead of hours
 * Ensure consistent behavior across different environments
@@ -222,22 +237,3 @@ podman rm my-web-server
 
 == Module summary
 
-You've successfully demonstrated the power of containerization and can now confidently present this solution to your manager.
-
-**What you accomplished for ACME:**
-* Deployed a web server in seconds instead of hours using containers
-* Proved containers provide consistent behavior across environments
-* Demonstrated simple yet powerful container management capabilities
-* Showed how container technology eliminates configuration drift
-
-**Business impact realized:**
-* **Deployment time**: Reduced from hours to seconds
-* **Reliability**: Eliminated environment-specific deployment failures
-* **Operational efficiency**: Simplified management through standardized commands
-* **Risk reduction**: Consistent, repeatable deployment process
-
-**Your journey progress:**
-You now have practical experience with container fundamentals and can evaluate their potential for improving deployment processes.
-
-**Next steps:**
-Module 2 will show you how to create custom container images for ACME's specific applications, moving from proof-of-concept to production-ready solutions.
