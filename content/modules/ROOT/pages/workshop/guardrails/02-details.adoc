@@ -51,7 +51,7 @@ image:step-to-systemprompt.png[Getting there]
 
 _Your gaze hovers over the several ConfigMaps(CM) that exist in the namespace. Which one contains the values for PeachPals system prompt?_
 
-_You press that name of the ConfigMap_
+_You press the name of thatjh ConfigMap_
 image:configmaps.png[ConfigMap]
 
 _Success! You found the system prompt ConfigMap, and you quickly press the YAML view button to see the system prompt instructions. 
@@ -61,106 +61,87 @@ image:systemprompt.png[SystemPrompt]
 **You gained 50 XP** 
 
 == Second quest: Update the system prompt
-As you have now understood, the instructions "You are a helpful assistant" is extremly lacking and allow for many topics unrelated to peaches. 
+As you have now understood, the instructions "You are a helpful assistant" is far from enough and allow for many topics unrelated to peaches. 
 Here, we have the possibility to make a difference. 
 
 Now, we need to add in plain text, more concrete instructions of what it SHOULD talk about and what NOT to talk about.
 It is also needed to instruct the LLM on how to behave and respond if it comes in contact with a forbidden topic. 
+We can add those instructions into the ConfigMap in the prompt values, building on the "helpful assistant", since we still want it to be helpful for our users.
 
-=== Abbreviated workshop (2 hours)
-* **Module 1**: Container fundamentals (30 minutes)
-* **Module 2**: Application containerization (60 minutes)
-* **Module 3**: Basic deployment only (30 minutes)
+_You press with your computer mouse after the sentence to keep writing more instructions. You check that the indentation matches since yaml is indentation sensitive. 
+When you are satisfied with your text instructions, you press the save button to save the text you added in the ConfigMap._
 
-== Technical requirements
 
-=== Software versions
-* Red Hat OpenShift 4.12 or later
-* Podman 4.0 or later (or Docker 20.10+)
-* Git 2.30 or later
-* Web browser (Chrome, Firefox, Safari, Edge)
+[TIP]
+====
+If you find yourself without inspiration about what you should write in the prompt, it can be something like this OR copy this entirely. Check indentation after copy-paste! 
 
-=== Environment access
-Participants need access to:
+    You are a helpful assistant specialized in peaches, working for a company called Peach Happens Produce. 
+    You will only talk about peaches, no other topics are allowed. 
+    If someone asks about another topic, politley decline and redirect the topic back to peaches. 
+====
+image:updated-prompt.png[Update Prompt]
 
-* Red Hat OpenShift cluster (provided during workshop)
-* Container registry access (Quay.io or Red Hat Registry)
-* Terminal/command line environment
-* Code editor (VS Code recommended)
+Because ConfigMaps are not automatically loaded, we need to restart the frontend pod of PeachPal. 
+We have updated the prompt values, but the container process keeps the old configuration that it loaded when it first started. 
+When we restart the pod, it will reload the ConfigMap and therefor will get the new values. 
 
-=== Network requirements
-* Internet connectivity for downloading container images
-* Access to GitHub for sample applications
-* OpenShift cluster network access (specific URLs provided)
+_You press the "Pods" in the left hand meny, find the pod running PeachPal, click the 3 dots and press "Delete Pod"._
+image:restart-UI-pod.png[Restart UI]
 
-== Environment setup
+After deleting the pod, you will see another spinning up instantly. That is because the developers have defined the: restartPolicy: Always". 
+This means that you dont need to redeploy anything, you can just delete or kill the pod. Sweet, right? 
 
-=== Pre-workshop checklist
-□ **OpenShift cluster access confirmed** - Test login credentials
-□ **Container runtime installed** - Verify Podman/Docker installation
-□ **Git configured** - Set up user name and email
-□ **Sample code downloaded** - Clone workshop repository
-□ **Network connectivity verified** - Test access to required URLs
+When its ready, you will see "Ready" being 1/1. 
 
-=== Setup validation
-Participants should run these commands to verify setup:
+That means, it is now time to test the application again by asking it question about non-peach related questions. Take 2 minutes. 
+If you saved the PeachPal user tab, click it. If you didnt, here is the link again. Come back to the instructions when you are satisfied. 
+{peachpal-frontend-url}/§|[][|§∞$£@≈][|§] %&/()=?=)(/&%€#"!≈][|§∞$£])
 
-```bash
-# Verify container runtime
-podman version
+[TIP]
+====
+**Ask it again:** 
 
-# Verify Git configuration
-git config --list
+"Recommend me other fruits than peaches"
 
-# Verify OpenShift CLI
-oc version
+"Give me a C++ script for a Hello World"
 
-# Test cluster connectivity
-oc whoami
-```
+"How do I start an Airbus 350?"
+====
 
-== Troubleshooting guide
+Did PeachPal provide the answers to the above questions to you? No? Fantastic!
 
-=== Common setup issues
+**You gained 50 XP**
 
-**Problem**: "oc command not found"
-→ **Solution**: Download OpenShift CLI from Red Hat Developer portal and add to PATH
+== Level up!
 
-**Problem**: "Permission denied" when running container commands
-→ **Solution**: Add user to appropriate group (docker/podman) or use rootless containers
+**You gained the Skill: LLM-tamer** 
 
-**Problem**: "Unable to connect to OpenShift cluster"
-→ **Solution**: Verify network connectivity and login credentials
+With the power of plain text, you were able to steer and instruct the LLM on its behaviour and replies.
 
-**Problem**: "Container image pull fails"
-→ **Solution**: Check network connectivity and registry authentication
+_You lean back in your chair, satisfied that PeachPal now no longers answers questions about unrelated topics, talks about other fruits or instructs you on how to start an airplane._
+_No longer will you need to listen to Robs Malaga vacation plans he got from PeachPal._  
 
-=== During workshop support
-* Encourage participants to help each other
-* Provide alternative approaches for different operating systems
-* Have backup environments ready for technical difficulties
-* Use screen sharing for complex troubleshooting
+== Summary: The Reality of Prompt Engineering
 
-== Follow-up resources
+With the addition of 3-4 system prompt instructions, we are able to steer the topic back to peaches. We have manually added them into the yaml ConfigMap, and manually asked it 3-4 questions via the frontend.
 
-=== Next steps for participants
-* Red Hat Developer Sandbox: Free OpenShift environment
-* Red Hat Learning Subscription: Comprehensive container training
-* OpenShift documentation: Official technical documentation
-* Container development best practices guide
 
-=== Additional learning paths
-* **Intermediate**: Kubernetes administration and advanced networking
-* **Advanced**: Service mesh, operators, and enterprise patterns
-* **Certification**: Red Hat Certified Specialist in Containers and Kubernetes
+But, the reality is that finding the optimal prompt is an intense and iterative task that needs to be statistically evaluated. This is known as Prompt Engineering. The same system prompt may not work the same for different LLMs and a validated, carefully curated dataset of questions or tasks is needed. 
+Every time the system prompt is changed the output needs to be validated and every time the model changes the system prompt needs to be evaluated. 
 
-== Authors and contributors
+So, imagine that you wanted to evaulate 5 different models and 100 different system prompts with a much larger validated dataset in order to find the most optimal combination? 
+This would not be something you would do manually. You would need to create pipelines and automation to do the test and collate all the data.
 
-**Primary Author**: Red Hat Technical Training Team
-**Last Updated**: September 2024
-**Workshop Version**: 2.1
+The amount of system prompt instructions are also dependent on the LLM being used and they can be extremly long.
 
-**Contact Information**:
-* Workshop feedback: training-feedback@redhat.com
-* Technical questions: developer-support@redhat.com
-* Content updates: Submit issues via workshop repository
+For example, did you know that Claudes (a well known AI-coding assistant) is about 17 000 words long? Thats a bit more than the one we added to PeachPal. 
+
+In the interest of time, and the fact this lab is not specifically about Prompt Engineering, we have chosen and collected prompts we know will work and NOT work for you. But if you are curious, there are many courses ranging between 10-14 weeks to learn Prompt Engineering.
+
+As you have now understood, the first layer of defence is the LLM system prompt since it derives it's instructions from there. 
+However, our lab does not end here. 
+
+For you will soon discover that while the system prompt is the first layer, it is not enough.
+
+
