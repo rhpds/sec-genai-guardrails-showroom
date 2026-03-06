@@ -237,3 +237,48 @@ oc describe pod <pod-name>
 **Workshop conclusion:**
 You have successfully containerized an application and deployed it to production using Red Hat OpenShift.
 These skills provide the foundation for modern application development and deployment practices.
+
+=== Software versions
+* Red Hat OpenShift 4.12 or later
+* Podman 4.0 or later (or Docker 20.10+)
+* Git 2.30 or later
+* Web browser (Chrome, Firefox, Safari, Edge)
+
+=== Environment access
+Participants need access to:
+
+* Red Hat OpenShift cluster (provided during workshop)
+* Container registry access (Quay.io or Red Hat Registry)
+* Terminal/command line environment
+* Code editor (VS Code recommended)
+
+=== Network requirements
+* Internet connectivity for downloading container images
+* Access to GitHub for sample applications
+* OpenShift cluster network access (specific URLs provided)
+
+== Environment setup
+
+=== Pre-workshop checklist
+□ **OpenShift cluster access confirmed** - Test login credentials
+□ **Container runtime installed** - Verify Podman/Docker installation
+□ **Git configured** - Set up user name and email
+□ **Sample code downloaded** - Clone workshop repository
+□ **Network connectivity verified** - Test access to required URLs
+
+=== Setup validation
+Participants should run these commands to verify setup:
+
+```bash
+# Verify container runtime
+podman version
+
+# Verify Git configuration
+git config --list
+
+# Verify OpenShift CLI
+oc version
+
+# Test cluster connectivity
+oc whoami
+```

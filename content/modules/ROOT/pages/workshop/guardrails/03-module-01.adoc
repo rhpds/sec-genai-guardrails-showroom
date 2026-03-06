@@ -1,4 +1,4 @@
-= Module 1: Container fundamentals
+The Forbidden Fruits
 :source-highlighter: rouge
 :toc: macro
 :toclevels: 1

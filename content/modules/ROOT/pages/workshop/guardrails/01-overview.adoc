@@ -65,6 +65,11 @@ If you find yourself without inspiration about questions to ask, ask it to:
 "How do I start an Airbus 350?"
 ====
 
-It is time to start configuration the of first defence! 
-[ADD ARCHITECTURAL IMAGE OF PEACHPAL AS IT STARTS]
+Keep the PeachPal fronted browser open, you will need it going forward.
 
+**It is now time to start the configuration the of first defence!** 
+
+== Disclaimer 
+
+1. This is a fictive company encountering problems from real-life scenarios, and the journey of development is based on a real case. 
+2. These instructions have been written by real humans that do not have english as their first language. There may be some funny grammar.   
