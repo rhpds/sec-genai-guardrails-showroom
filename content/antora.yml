@@ -4,3 +4,9 @@ version: master
 start_page: workshop/guardrails/01-overview.adocs
 nav:
   - modules/ROOT/nav.adoc
+asciidoc:
+  attributes:
+    openshift_cluster_ingress_domain: PLACEHOLDER-URL.com
+    user: user1
+    openshift_console_url: PLACEHOLDER-URL.com
+    password: password

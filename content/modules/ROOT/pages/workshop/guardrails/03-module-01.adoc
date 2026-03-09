@@ -9,7 +9,7 @@ _It's from Annika in marketing, and she is not happy. Its a screenshot from a so
 _You recognise it easily, it's the PeachPal frontend._ 
 
 
-_Someone has tagged Peach Happens account with the text "LOLZ, when the peach isnt peaching". It has over 10 000 likes and 500 comments._
+_Someone has tagged Peach Happens account with the text "LOLZ, things are not so "peachy" with PeachPal". It has over 10 000 likes and 500 comments._
 
 
 _You take a closer look at the screenshot and read PeachPals answer._
@@ -61,9 +61,11 @@ _You press the ConfigMap tab selection in the left hand meny, and then press "pe
 image:select-peachpal-config.png[Select Config]
 
 
-_You press "YAML" and see a variable called "GUARDRAILS_ENABLED". Next to it you see the value 'false'. You change it to 'true' and then press the "Save". All other variables stay the same._ 
+_You press "Actions" and then "Edit ConfigMap"._ 
 image:enable-guardrails.png[Enable guardrails]
 
+_You scroll down to the value 'false'. You change it to 'true' and then press the "Save"._ 
+image:enable-guardrails2.png[Save true config]
 Now that we have changed the ConfigMap for PeachPal, we have to reload the new changes in the same way we did when we updated the system prompt ConfigMap. 
 We have to delete the pod.
 
@@ -71,15 +73,35 @@ _You navigate to the "Pods" tab in the lefthand meny and click it. You identify 
 image:restart-UI-pod.png[Restart Pod]
 image:delete-pod.png[Delete pod]
 
-While we wait for the new pod to become "Ready", and it will not take long, we can have a look at the ConfigMap for the gateway. 
+While we wait for the new pod to become "Ready", and it will not take long, we can have a look at the two ConfigMap that we will use now that guardrails are enabled. 
 This is the first place the traffic goes through, and coincidently where the first filter that we are interested in exists.
 
-* Deploy a web application using containers in minutes instead of hours
-* Ensure consistent behavior across different environments
-* Manage container lifecycle for reliable application operations
-* Use container registries for secure application distribution
+Lets go back to the ConfigMaps!
+image:trusty-configmaps.png[Trusty maps]
 
-== Exercise 1: Your first container deployment
+There are two components that we are going to get familiar with. 
+
+**fms-orchestr8-config-gateway**
+
+
+The gateway recieves the API requests from the client first, in our case, PeachPal. The gateway exposes a clean API to the application, hiding internal services and also handles authentication and headers. 
+It separates external access from the internal guardrail system. You could call it a "front door" that all requests go through. It thereafter sends the request to the orchestrator.
+
+**fms-orchestr8-config-nlp** 
+
+
+The orchestrator recieves the request from the gateway and thereafter executes a sequence of checks against detectors/guardrails. If the detectors do not flag the request, the request continues to the LLM. 
+The LLM generates the response and it gets passed back to the orchestrator who may execute the same checks on the answers. If the output is okay, it continues to the gateway and finally on to PeachPal.
+
+
+Congratulations, you have successfully enabled TrustyAI, routing all the traffic through it instead of sending it directly to the LLM.
+
+
+**You gained 50 XP**
+
+
+
+== Second quest: Deny the fruits!
 
 You need to prove that containers can solve ACME's deployment challenges. Let's start with a simple web server deployment to demonstrate the speed and consistency containers provide.
 
