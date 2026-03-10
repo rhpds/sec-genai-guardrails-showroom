@@ -50,13 +50,11 @@ Take 2 minutes asking questions, and then come back to the instructions.
 
 **Click**
 
-
-**INSERT LINK TO FRONTEND SO THEY CAN TRY CHATTING VIA THE FRONTEND AND ASKING FROM THE USER PERSPECTIVE.**
-{peachpal-frontend-url}/§|[][|§∞$£@≈][|§] %&/()=?=)(/&%€#"!≈][|§∞$£])
+https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
 
 [TIP]
 ====
-If you find yourself without inspiration about questions to ask, ask it to: 
+Ask it to: 
 
 "Recommend me other fruits than peaches"
 
@@ -72,4 +70,5 @@ Keep the PeachPal fronted browser open, you will need it going forward.
 == Disclaimer 
 
 1. This is a fictive company encountering problems from real-life scenarios, and the journey of development is based on a real case. 
-2. These instructions have been written by real humans that do not have english as their first language. There may be some funny grammar.   
+2. These instructions have been written by real humans that do not have english as their first language. There may be some funny grammar. Feedback and PRs are welcome.
+3. All code and deployment instructions may be found on GitHub.   
