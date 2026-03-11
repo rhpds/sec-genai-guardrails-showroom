@@ -3,4 +3,5 @@
 * xref:workshop/guardrails/02-details.adoc[A Juicy Start]
 * xref:workshop/guardrails/03-module-01.adoc[The Forbidden Fruits]
 * xref:workshop/guardrails/04-module-02.adoc[A Rotten Apple]
-* xref:workshop/guardrails/05-module-03.adoc[Module5]
+* xref:workshop/guardrails/05-module-03.adoc[Cherrypicking]
+* xref:workshop/guardrails/06-module-01.adoc[xxxx]
