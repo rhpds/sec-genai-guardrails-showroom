@@ -165,7 +165,7 @@ detectors:
     output: true
     detector_params:
       regex:    
-        - "(?i)\b(orange|apple|nectarine|plum|apricot|banana|grape|melon|pineapple|lime)s?\b"
+        - (?i)\b(orange|apple|nectarine|plum|apricot|banana|grape|melon|pineapple|lime)s?\b
   - name: prompt_injection 
     input: true
     output: false
@@ -201,8 +201,6 @@ https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
 Did you get a purple blocking message? Magical! The request is blocked before even reaching the LLM.
 
 **You gained 50 XP** 
-
-
 
 
 == Level up! 
