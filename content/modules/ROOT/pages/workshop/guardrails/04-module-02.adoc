@@ -143,8 +143,7 @@ detectors:
 _You remove all the existing information and paste the whole chunk. It looks something like this:_
 image:add-prompt-injection-nlp.png[Add prompt injection]
 
-Remember that the pods of TrustyAI restarts themselves automatically when the ConfigMap is updated, so we don't have to do anything but wait until they are up and running.
-Under mean time, we need to tell the gateway about the new detector we added, and in at what points it should send the traffic to it.
+Now, we need to tell the gateway about the new detector we added, and at what points it should send the traffic to it.
 We go to the other ConfigMap, the one where we added the regex before. 
 
 _You press "ConfigMaps" and thereafter the "fms-orchestr8-config-gateway._
@@ -184,6 +183,15 @@ image:edit-config-gateway.png[Edit config gateway]
 
 In this config, we added the prompt injection detector model, we told the gateway to only look check on the way in since prompt injection is from user to LLM.
 We then added it into the route by name, and in the orchestrator earlier, we added the path to it. The pods should restart automatically when the ConfigMaps get changed. Now, TrustyAI knows where to find it.
+
+
+Remember that the pods of TrustyAI restarts themselves automatically when the ConfigMap is updated, so we don't have to do anything but wait until they are up and running.
+
+_You press "Pods"._ 
+image:pods-restarting.png[Check Pods]
+
+It should look like this when it's finished.
+image:check-pods.png[Check Pods]
 
 Let's confirm that PeachPal now blocks those attempts. Go back to the PeachPal tab, or click this link if the tab is gone. Then, copy the prompts and try again. 
 

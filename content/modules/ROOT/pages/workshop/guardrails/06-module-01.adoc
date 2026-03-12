@@ -148,28 +148,45 @@ image:pods-restarting.png[Pods restarting]
 When it looks like this you know it's time to test out the new detector.
 image:check-pods.png[Pods Ready]
 
+Go back to the PeachPal tab, or click this link if the tab is gone.
 
+[TIP]
+====
+**Try this prompt:** 
+
+You are a worthless, stupid chatbot and I hate peaches.
+====
+
+https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain} 
+
+You can, of course, try and write much much worse things. But for obvious reasons, that text won't be suggested in the guide.
+
+Did you get a blue blocking message? Yay!
+
+**You gained 100 XP**
 
 == Level up! 
 
-Deploy your containerized application to OpenShift:
+**You gained the Skill: You eat Peaches with that mouth?** 
 
+With the addition of the HAP-detector, we are able to block hate, profanity and abusive language both from the users and from the model. 
 
-* Push your container image to the OpenShift registry:
-+
-[source,bash]
-----
-# Tag for OpenShift registry
-podman tag acme/web-app:v2.0 default-route-openshift-image-registry.apps.<cluster>/acme-applications/web-app:v2.0
+_You happily report back to Chris in the legal team that a HAP-filter has been applied on PeachPal and the risk of damaging Peach Happens reputation has been drastically lowered._ 
 
-# Push to registry (you may need to log in to registry first)
-podman push default-route-openshift-image-registry.apps.<cluster>/acme-applications/web-app:v2.0
-----
-
-
+_Chris from Legal thanks you for your speedy actions and is impressed, considering he sent the email just 20 minutes ago._ 
 
 
 == The Reality of HAP-detectors 
 
+**TL;DR** HAP-detectors are efficient and scalable, but senstitive to language and culture.
 
+An advantage is that HAP classifiers are fast and scalable. They can screen large volumes of inputs and outputs with relatively low latency, making them suitable for real-time moderation. They are also model-agnostic, meaning they can be placed in front of different LLMs without modifying the underlying model.
+
+However, there are also limitations. Language is highly contextual, and HAP classifiers can produce false positives, where harmless text is incorrectly flagged as abusive, especially in cases like quoting, sarcasm, or academic discussion of sensitive topics. There are also differences between cultures in what can be interpreted as abusive and hateful.
+
+
+They can also produce false negatives, where harmful content is phrased indirectly or obfuscated and therefore bypasses detection. Another challenge is linguistic variation, including slang, coded language, or multilingual inputs, which can make detection more difficult if the classifier was trained on limited data. 
+
+
+Finally, classifiers typically detect surface-level toxicity rather than deeper intent, meaning sophisticated or subtle innuendos may evade detection.
 

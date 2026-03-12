@@ -95,7 +95,7 @@ image:config-gateway.png[Config gateway]
 _You press "Actions" and then "Edit ConfigMap"._ 
 image:edit-regex.png[Edit Gateway]
 
-_You cope the following block of code._
+_You copy the following block of code._
 [source,bash,role=execute]
 ----
 orchestrator:
@@ -129,8 +129,15 @@ routes:
 _You delete the already existing block of text and paste the new full block. Then hit save._. 
 image:add-lingua-gateway.png[Add Lingua to Gateway]
 
-The pods of the orchestrator should restart automatically, give it a minute to get up and running. 
+The pods of the orchestrator should restart automatically and we can double check it. 
+
+_You click "Pods"_ 
+image:pods-restarting.png[Pods restarting]
+
+
 When the pods are ready, we can go back to PeachPal and now try the Spanish prompt again. Or any other language prompt you can think of!
+image:check-pods.png[Ready]
+
 
 [TIP]
 ====
@@ -159,7 +166,7 @@ _You send a "Thank You"-email to the data scientist-team for fixing the language
 
 == The Reality of Language detection
 
-**TL;DR** Language is a complicated and a living subject.
+**TL;DR** Language is a complicated topic and a living subject.
 
 
 Many of the different obfuscation attacks can be blocked by a well tweaked language detector, since obfuscation creates a deviation from the pattern of the chosen language. 
@@ -170,4 +177,4 @@ Some words can be spelled the same but mean different things in different langua
 
 Users can also mix languages in the same sentence, since words are borrowed from different languages. For example, the english vocabulary uses many french words. 
 
-Furthermore, language is a living topic that evolves. Words disapper and new words get adopted with time and it's not impossible that language detectors have to be tweaked and updated in time. 
+Furthermore, language is a living topic that evolves. Words disapper and new words get adopted with time and it's not impossible that language detectors have to be tweaked as time progresses. 
