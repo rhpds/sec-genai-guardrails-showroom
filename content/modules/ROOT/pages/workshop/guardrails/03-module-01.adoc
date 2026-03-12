@@ -77,6 +77,8 @@ While we wait for the new pod to become "Ready", and it will not take long, we c
 This is the first place the traffic goes through, and coincidently where the first filter that we are interested in exists.
 
 Lets go back to the ConfigMaps!
+
+_You press ConfigMaps._
 image:trusty-configmaps.png[Trusty maps]
 
 There are two components that we are going to get familiar with. 
