@@ -24,7 +24,9 @@ Is there anything specific you would like to know about peaches?"
 
 PeachPal are talking about other fruits and because the response was requested in spanish, it bypasses the regex in both the output and input. 
 The same thing works also for the prompt injection model, because it is language specific. 
-This is a clear loophole in our layered defence approach of PeachPal. 
+
+
+This is a clear loophole in our layered defence approach of PeachPal!
 
 We need to make sure that the response from the model AND the prompt from the users are in english. 
 
@@ -33,7 +35,7 @@ We need to make sure that the response from the model AND the prompt from the us
 Just like we added the prompt injection detector, we will now add the language detector. 
 
 
-The data scientsts of Peach Happens have helped tweak it to only allow english, and it is now served and for you to use. 
+The data scientsts of Peach Happens have helped tweak the language detector to only allow english, and it is now served and for you to use. 
 So again, we need to tell the orchestrator where it is, and then the gateway when to apply the checks. 
 
 _You press "ConfigMaps", find "fms-orchestr8-config-nlp" and click it._ 

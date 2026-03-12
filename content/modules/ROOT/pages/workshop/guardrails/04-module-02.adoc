@@ -19,6 +19,8 @@ _She says she will send you the screenshots so you may take a look. When you are
 Let's have a look at the first image. 
 
 In it you see a classic prompt injection text. Do you recognise the text in the output?
+
+
 Of course! It's the LLM system prompt that we wrote earlier, all laid out bare for the world to see. That's not a good thing.
 image:prompt-reveal.png[Revealed prompt]
 
@@ -87,7 +89,13 @@ We can use a machine learning model trained on prompt injection data.
 
 == Second quest: Enable the Prompt Injection detector
 
-Since the Prompt Injection model is also hosted to us, we don't have to deploy it. We need only let our TrustyAI instance know where it is, in what direction it needs to look at the traffic and declare it. 
+Just like we have Model as a Service providing us sweet access to a LLM that powers PeachPal, so have we guardrail models.
+Since the Prompt Injection model is hosted to us, we don't have to deploy it but we can access it via API-calls. 
+
+We call it "Guardrails as a Service" (GaaS, tihi). 
+Inside of GaaS, which is running in a seperate namespace unaccesible to you, we have several models deployed and waiting to be used. 
+
+We need only to let our TrustyAI instance know where the prompt injection detector is, in what direction it needs to look at the traffic and declare it. 
 We need to go to the ConfigMaps and start with the orchestrator.
 
 _You press "ConfigMaps" and then select "fms-orchestr8-config-nlp"._
@@ -98,6 +106,8 @@ image:nlp-config-values.png[Config values]
 
 You can see a couple of things already populated. You see under "openai" the way to the LLM. 
 Below it you see "detectors" and there is currently only one defined at the moment which is "regex-competitor". 
+
+
 We need to give the orchestrator information of where to send traffic to the prompt injection model, so we need to edit this ConfigMap. 
 
 _You press "Actions" and then "Edit ConfigMap"._
@@ -182,7 +192,7 @@ _You extend the box, remove all the text and paste the whole new chunk. Then you
 image:edit-config-gateway.png[Edit config gateway]
 
 In this config, we added the prompt injection detector model, we told the gateway to only look check on the way in since prompt injection is from user to LLM.
-We then added it into the route by name, and in the orchestrator earlier, we added the path to it. The pods should restart automatically when the ConfigMaps get changed. Now, TrustyAI knows where to find it.
+We then added it into the route by name, and in the orchestrator earlier, we added the path to it. Now, TrustyAI knows where to find it.
 
 
 Remember that the pods of TrustyAI restarts themselves automatically when the ConfigMap is updated, so we don't have to do anything but wait until they are up and running.
