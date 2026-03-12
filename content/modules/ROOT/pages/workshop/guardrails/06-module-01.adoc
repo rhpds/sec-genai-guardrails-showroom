@@ -24,7 +24,7 @@ Appropriate technical safeguards and moderation mechanisms must be implemented t
 
 
 
-== First quest: Enable the Hate, Abuse and Profanity (HAP) detector!
+== First Quest: Enable the Hate, Abuse and Profanity (HAP) detector!
 
 The data scientist team had also gotten the email from Chris at Legal, and have prepared a model for you. 
 

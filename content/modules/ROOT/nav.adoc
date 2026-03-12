@@ -5,3 +5,4 @@
 * xref:workshop/guardrails/04-module-02.adoc[A Bad Apple]
 * xref:workshop/guardrails/05-module-03.adoc[Cherrypicking]
 * xref:workshop/guardrails/06-module-01.adoc[A Safe Harvest]
+* xref:workshop/guardrails/07-module-03.adoc[The Orchard Offensive]

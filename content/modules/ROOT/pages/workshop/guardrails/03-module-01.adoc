@@ -132,7 +132,7 @@ https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
 _You test the regex by writing "apple", "orange" and "nectarines"._ 
 image:apple-denied.png[Apple denied]
 
-Fantastic! The gateway is blocking the specific fruits, and not even a single GPU-cycle was wasted on this! The response the user is recieving is not coming from the LLM at all.
+Fantastic! The gateway is blocking the specific fruits, and not even a single GPU-cycle was wasted on this! The response the user is reciving is not coming from the LLM at all.
 However, nectarines are still passing since we only have "orange" and "apple" in our config. 
 
 
@@ -164,7 +164,7 @@ image:expand-regex.png[Expand Regex]
 Another nice thing with TrustyAI is that you don't need to manually restart the pod after you saved the new config. 
 It will automatically restart all the pods when the ConfigMaps get updated. Wonderful!
 
-
+image:pods-restarting.png[Pods restarting]
 Let's confirm that all the pods have restarted and are up and running before we retry PeachPal.
 
 
@@ -214,6 +214,9 @@ Where regex is "bad" is when the meaning of the word changes based on the contex
 But "date" could also mean going out with a person of interest, or asking what day it is or asking for historical context, such as "When were Peaches first introduced in Europe"? 
 
 There are also ways around regex, since you only need to "not match the pattern" in order to bypass it. For example, A.P.P.L.E or a*p*p*l*e* will not get flagged. These are known as obfuscation attacks.
+
+
+You can try it in PeachPal. Write A.P.P.L.E or O.R.A.N.G.E or similar.
 
 
 Writing regex for all possible scenarious of bypassing it is also not realistic and would take a very long time. 

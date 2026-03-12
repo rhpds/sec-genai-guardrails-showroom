@@ -1,11 +1,46 @@
-= Workshop Module 3: Production deployment with Red Hat OpenShift
+= The Orchard Offensive
 :source-highlighter: rouge
 :toc: macro
 :toclevels: 1
 
-This module demonstrates deploying containerized applications to Red Hat OpenShift for production use.
+_It's been a week since the introduction of the HAP-detector, and you are curious of how many have triggered it._
 
-== Part 1: OpenShift deployment fundamentals
+_You are also curious of how efficient the whole application is._
+_Testing them one by one has been fun, but in order to validate the whole deployment you have to test them all at the same time._  
+_And it's not efficient to do it by hand._ 
+
+One of the powerful things in OpenShift is it's logging and monitoring. 
+We can apply it on custom applications, including our PeachPal. 
+
+Detections are but the first step. 
+
+**Let's find that data!**
+
+== First Quest: Find the metrics for PeachPals guardrails!
+
+The application of PeachPal already exposes the following metrics for us.  
+
+
+[source,bash]
+----
+guardrail_requests_total
+guardrail_detections_total{detector="hap",direction="input"}
+guardrail_detections_total{detector="hap",direction="output"}
+guardrail_detections_total{detector="regex_competitor",direction="input"}
+guardrail_detections_total{detector="regex_competitor",direction="output"}
+guardrail_detections_total{detector="prompt_injection",direction="input"}
+guardrail_detections_total{detector="prompt_injection",direction="output"}
+guardrail_detections_total{detector="language_detection",direction="input"}
+guardrail_detections_total{detector="language_detection",direction="output"}
+guardrail_detections_by_detector{detector="hap"}
+guardrail_detections_by_detector{detector="regex_competitor"}
+guardrail_detections_by_detector{detector="prompt_injection"}
+guardrail_detections_by_detector{detector="language_detection"}
+guardrail_detections_by_direction{direction="input"}
+guardrail_detections_by_direction{direction="output"}
+----
+_You press "Observe", then "Metrics and check that you are in "userX-peachpal" namespace._ 
+image:go-to-metrics.png[Go to Metrics]
 
 == Exercise 1: Deploying your application to OpenShift
 Deploy your containerized application to OpenShift:
