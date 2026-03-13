@@ -42,8 +42,8 @@ _You copy this block and run the query again._
 guardrail_detections_by_detector
 ----
 
-You should see something like this, but values for each detector can differ. Here we get the total decections for each detector. 
-So, how many has been blocked my the language detection, or the prompt injection.
+You should see something like this, but values for each detector can differ. Here we get the total detections for each detector. 
+So, how many has been blocked by the language detection, or the prompt injection.
 image:metrics-per-guardrail.png[Detection per Guardrail]
 
 We also have metrics of which direction a detector block, meaning if it was input or output.
@@ -58,10 +58,10 @@ image:prompt-injection-metric.png[Prompt Injection metric]
 
 Cool! We have the metrics collected here, but we also have them presented to us in a more visual way that is easier to overview. 
 
-_You press "Dashboard", then press the dropdown many and select "PeachPal Guardrail Metrics"._ 
+_You press "Dashboard", then press the dropdown menu and select "PeachPal Guardrail Metrics"._ 
 image:go-to-dashboard.png[Go to Dashboard]
 
-You should a dashboard that looks something like this, the values may differ between the screenshot and your dashboard. That's okay. 
+You should see a dashboard that looks something like this, the values may differ between the screenshot and your dashboard. That's okay. 
 image:peachpal-dashboard.png[PeachPal Dashboard]
 
 Here, you can see all the detectors that we deployed with a more easily grasped view. Monitoring of deployed guardrails are crucial due to a number of factors. 
@@ -74,7 +74,7 @@ Here, you can see all the detectors that we deployed with a more easily grasped 
 However, if you looked closely at the dashboard, you might have found a fifth metric that currently has no values. It belongs to the first defence layer we put up. The system prompt. 
 
 
-We have external AI models blocking, but, the LLM is also able to deny requests. If a prompt didnt trigger any of the guardrails on the way in, they may still get denied by the system prompt. 
+We have external AI models blocking, but, the LLM is also able to deny requests. If a prompt didn't trigger any of the guardrails on the way in, they may still get denied by the system prompt. 
 This is an important metric for us, because otherwise it may look like we are approving more requests than we actually are. 
 
 Try it out. Go back to PeachPal, or click this link if you closed the tab. 
@@ -262,9 +262,9 @@ image:check-refusal-metrics.png[Refusal metric]
 
 You should see something like this, though your value numbers can differ. We now have the system prompt refusal detector up and running, capturing it's metric.
 
-**Lets check the dashboard as well!**
+**Let's check the dashboard as well!**
 
-_You press "Dashboard", then press the dropdown many and select "PeachPal Guardrail Metrics"._ 
+_You press "Dashboard", then press the dropdown menu and select "PeachPal Guardrail Metrics"._ 
 image:go-to-dashboard.png[Go to Dashboard]
 
 You should see that the system prompt metrics have now joined the other detectors in the dashboard visualisation. Fantastic!
@@ -276,7 +276,7 @@ image:prompt-dashboard.png[Prompt added]
 **You gained the Skill: Full Peach Ahead**
 
 Using metrics and monitoring are crucial. Detections are only a first step, but with no monitoring we can never be certain that they work. 
-Seeing is believing. And it opens up a world of possibiilies of creating Alerts and automated response flows when using a lot of OpenShifts native features. 
+Seeing is believing. And it opens up a world of possibilities of creating Alerts and automated response flows when using a lot of OpenShifts native features. 
 
 _You gaze far into the distance. It has been a journey, but you know that security is never a destination but a never-ending journey._
 
@@ -288,14 +288,14 @@ _You take a sip of your brew. Yes, back to work._
 == The Reality of having LLMs as judges
 
 There are many advantages to using LLMs to judge input and output response. 
-They have a stronger semantic understanding and can understand context, intent and paraphrashing better than rules, keyword filters and classifier models. 
+They have a stronger semantic understanding and can understand context, intent and paraphrasing better than rules, keyword filters and classifier models. 
 
 They are also very flexible and adaptable since they are prompted, just like we did PeachPal, to look for specific things. 
 Updating topics is very easy, and there is often no need to find a specialised model to deploy or retrain it. 
 
 Some downsides are, of course, cost and latency. LLMs are in general larger and more compute intensive than smaller classifier models. 
 Currently, there is a lot of research and development using smaller LLMs or quantized version to lower the compute footprint.
-There is also a change to bypass LLM-judges via prompt injection or attacks that attempt to influence judges reasoining or instructions.
+There is also a chance to bypass LLM-judges via prompt injection or attacks that attempt to influence judges reasoning or instructions.
 
 LLM-decision may also be harder to trace and explain, especially in compliance-sensitive environments.
 

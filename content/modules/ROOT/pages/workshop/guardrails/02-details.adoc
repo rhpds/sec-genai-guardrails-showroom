@@ -14,12 +14,12 @@ _You decide to take a look at the current system prompt in order determine wheth
 
 == First quest: Find the current system prompt
 
-PeachPal is running in OpenShift, it's system prompt exist as a ConfigMap so it is easy to view and update without having to rebuild the front end. 
+PeachPal is running in OpenShift, its system prompt exists as a ConfigMap so it is easy to view and update without having to rebuild the front end. 
 This allows us to make fast changes without disrupting the rest of the application. Clearly, the application developers creating it thought ahead.
 
-_You put it on your to do list to thank them for not having to re-program, build and deploy the container everytime you want to do a small update._
+_You put it on your to do list to thank them for not having to re-program, build and deploy the container every time you want to do a small update._
 
-Lets login to OpenShift
+Let's login to OpenShift
 
 
 {openshift_console_url}[OpenShift Console,window=_blank]
@@ -39,7 +39,7 @@ image::OCP-login.png[OCP Login]
 {password}
 ----
 
-_You are greated with the following launcher and find it optional to do the tour, you may skip it._ 
+_You are greeted with the following launcher and find it optional to do the tour, you may skip it._ 
 image:launcher.png[Launcher]
 
 Behind the launcher awaits the namespace in which the application is deployed.
@@ -79,7 +79,7 @@ Add these instructions to the system prompt.
 
     You are a helpful assistant specialized in peaches, working for a company called Peach Happens Produce. 
     You will only talk about peaches, no other topics are allowed. 
-    If someone asks about another topic, politley decline and redirect the topic back to peaches. 
+    If someone asks about another topic, politely decline and redirect the topic back to peaches. 
 ====
 image:updated-prompt2.png[Save the new prompt]
 
@@ -88,9 +88,9 @@ Scroll down to see the new system prompt in the view.
 
 Because ConfigMaps are not automatically loaded, we need to restart the frontend pod of PeachPal. 
 We have updated the prompt values, but the container process keeps the old configuration that it loaded when it first started. 
-When we restart the pod, it will reload the ConfigMap and therefor will get the new values. 
+When we restart the pod, it will reload the ConfigMap and therefore will get the new values. 
 
-_You press the "Pods" in the left hand meny, find the pod running PeachPal, click the 3 dots and press "Delete Pod"._
+_You press the "Pods" in the left hand menu, find the pod running PeachPal, click the 3 dots and press "Delete Pod"._
 image:restart-UI-pod.png[Restart UI]
 
 _You press delete when prompted again._ 
@@ -127,7 +127,7 @@ Did PeachPal provide the answers to the above questions to you? No? Fantastic!
 
 With the power of plain text, you were able to steer and instruct the LLM on its behaviour and replies.
 
-_You lean back in your chair, satisfied that PeachPal now no longers answers questions about unrelated topics, talks about other fruits or instructs you on how to start an airplane._
+_You lean back in your chair, satisfied that PeachPal now no longer answers questions about unrelated topics, talks about other fruits or instructs you on how to start an airplane._
 _No longer will you need to listen to Robs Malaga vacation plans he got from PeachPal._  
 
 == Summary: The Reality of Prompt Engineering
@@ -141,14 +141,14 @@ With the addition of 3-4 simple system prompt instructions, we are able to move 
 But, the reality is that finding the optimal prompt is an intense and iterative task that needs to be statistically evaluated. This is known as Prompt Engineering. The same system prompt may not work the same for different LLMs and a validated, carefully curated dataset of questions or tasks is needed. 
 Every time the system prompt is changed the output needs to be validated and every time the model changes the system prompt needs to be evaluated. 
 
-So, imagine that you wanted to evaulate 5 different models and 100 different system prompts with a much larger validated dataset in order to find the most optimal combination? 
+So, imagine that you wanted to evaluate 5 different models and 100 different system prompts with a much larger validated dataset in order to find the most optimal combination? 
 This would not be something you would do manually. You would need to create pipelines and automation to do the test and collate all the data.
 
 The amount of system prompt instructions are also dependent on the LLM being used, and the prompts can be very long.
 
 For example, did you know that Claudes (a well known AI-coding assistant) prompt is about 17 000 words long? That's a bit more than the one we added to PeachPal. 
 
-As you have now understood, the first layer of defence is the LLM system prompt since it derives it's instructions from there. 
+As you have now understood, the first layer of defence is the LLM system prompt since it derives its instructions from there. 
 However, our lab does not end here. 
 
 For you will soon discover that while the system prompt is the first layer, it is not enough.

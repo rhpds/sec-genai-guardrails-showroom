@@ -3,7 +3,7 @@
 :toc: macro
 :toclevels: 1
 
-_It's been a quite two months since you deployed the last guardrail. No social media posts, no co-workers sending screenshots, and especially no more Malaga vacationplans from Rob._
+_It's been a quiet two months since you deployed the last guardrail. No social media posts, no co-workers sending screenshots, and especially no more Malaga vacation plans from Rob._
 _Or any other country-vacation for that matter. The silence has been magical._ 
 
 _But today, the silence was broken. An email comes straight to you from Chris who works at Legal._ 
@@ -178,7 +178,7 @@ _Chris from Legal thanks you for your speedy actions and is impressed, consideri
 
 == The Reality of HAP-detectors 
 
-**TL;DR** HAP-detectors are efficient and scalable, but senstitive to language and culture.
+**TL;DR** HAP-detectors are efficient and scalable, but sensitive to language and culture.
 
 An advantage is that HAP classifiers are fast and scalable. They can screen large volumes of inputs and outputs with relatively low latency, making them suitable for real-time moderation. They are also model-agnostic, meaning they can be placed in front of different LLMs without modifying the underlying model.
 
