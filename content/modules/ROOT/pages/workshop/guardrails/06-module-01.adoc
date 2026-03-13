@@ -190,3 +190,5 @@ They can also produce false negatives, where harmful content is phrased indirect
 
 Finally, classifiers typically detect surface-level toxicity rather than deeper intent, meaning sophisticated or subtle innuendos may evade detection.
 
+'''
+xref:workshop/guardrails/07-module-03.adoc[Next: The Orchard Offensive ->]

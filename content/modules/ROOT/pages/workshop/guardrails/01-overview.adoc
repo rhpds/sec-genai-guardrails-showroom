@@ -71,4 +71,7 @@ Keep the PeachPal frontend browser open, you will need it going forward.
 
 1. This is a fictive company encountering problems from real-life scenarios, and the journey of development is based on a real case. 
 2. These instructions have been written by real humans that do not have english as their first language. There may be some funny grammar. Feedback and PRs are welcome.
-3. All code and deployment instructions may be found on GitHub.   
+3. All code and deployment instructions may be found on GitHub.
+
+'''
+xref:workshop/guardrails/02-details.adoc[Next: A Juicy Start ->]
