@@ -136,7 +136,7 @@ routes:
     detectors:
 ----
 
-_You delete the already existing block of text and paste the new full block. Then hit save._. 
+_You delete the already existing block of text and paste the new full block. Then hit save._
 image:add-hap-gateway.png[Add Lingua to Gateway]
 
 
