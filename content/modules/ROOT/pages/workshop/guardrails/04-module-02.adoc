@@ -241,4 +241,7 @@ Just the same way that the models evolve over time, so does the prompt injection
 When choosing your prompt injection model, it is worth to note when it was last updated. A lot can happen in 6-12 months in the prompt hacking field. 
 Monitoring the evolution of prompt hacks, and from time having validating checks against the deployed prompt injection model may reveal early where it will fail. 
 
-Better you finding it out then waiting for someone to find out for you. 
+Better you finding it out then waiting for someone to find out for you.
+
+'''
+xref:workshop/guardrails/05-module-03.adoc[Next: Cherrypicking ->]

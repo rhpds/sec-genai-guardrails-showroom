@@ -1,7 +1,7 @@
 name: modules
 title: Showroom Collection
 version: master
-start_page: workshop/guardrails/01-overview.adocs
+start_page: workshop/guardrails/01-overview.adoc
 nav:
   - modules/ROOT/nav.adoc
 asciidoc:

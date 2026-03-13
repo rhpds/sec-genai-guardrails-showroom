@@ -179,4 +179,7 @@ Some words can be spelled the same but mean different things in different langua
 
 Users can also mix languages in the same sentence, since words are borrowed from different languages. For example, the english vocabulary uses many french words. 
 
-Furthermore, language is a living topic that evolves. Words disappear and new words get adopted with time and it's not impossible that language detectors have to be tweaked as time progresses. 
+Furthermore, language is a living topic that evolves. Words disappear and new words get adopted with time and it's not impossible that language detectors have to be tweaked as time progresses.
+
+'''
+xref:workshop/guardrails/06-module-01.adoc[Next: A Safe Harvest ->]
