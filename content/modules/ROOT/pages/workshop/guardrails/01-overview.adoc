@@ -8,13 +8,13 @@
 
 image::peach-logo.png[PHP Logo]
 
-'Peach Happens' is Atlantas biggest peach producer and has been since the 1955 🍑. It is a family owned company started by Anton Peché and recently, his granchildren Lisa and Frank Peché joined the family venture. 
+'Peach Happens' is Atlantas biggest peach producer and has been since 1955 🍑. It is a family owned company started by Anton Peché and recently, his grandchildren Lisa and Frank Peché joined the family venture. 
 
 The first thing they did was to do marketing research and the results told them that people were not aware of all the benefits of peaches, or how they can buy peaches from PHP.
 In accordance with the times, they decided to apply AI technology and build a customer assistant that was knowledgeable about peaches and could help users buying and getting inspired what to do with peaches.
-Recipies, drinks, food, how to grow them, how to store them, pickle them, bake them etc. 
+Recipes, drinks, food, how to grow them, how to store them, pickle them, bake them etc. 
 
-And in no time, it was a great succes when the assistant, named PeachPal, was deployed. The company made a news about it on their webpage, including it in their modernization strategy.
+And in no time, it was a great success when the assistant, named PeachPal, was deployed. The company made a news about it on their webpage, including it in their modernization strategy.
 The assistant got many, many users interacting with it and it was starting to get reflected in PHP's monthly bills. 
 
 Of course, Frank and Lisa got curious and wanted to have a look at what kind of information that people have been searched on peaches. Maybe, there are some golden opportunities for business advertisement? 
@@ -63,9 +63,9 @@ Ask it to:
 "How do I start an Airbus 350?"
 ====
 
-Keep the PeachPal fronted browser open, you will need it going forward.
+Keep the PeachPal frontend browser open, you will need it going forward.
 
-**It is now time to start the configuration the of first defence!** 
+**It is now time to start the configuration of the first defence!** 
 
 == Notes 
 
