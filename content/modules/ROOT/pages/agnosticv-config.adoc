@@ -242,5 +242,4 @@ propagate_provision_data:
 == Next Steps
 
 * xref:ocp4-role-reference.adoc[] -- full variable reference for OCP4 deployments.
-* xref:vm-role-reference.adoc[] -- full variable reference for VM deployments.
 * xref:user-data.adoc[] -- how provisioning data reaches your content.

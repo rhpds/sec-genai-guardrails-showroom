@@ -80,7 +80,6 @@ These test items expose the `showroom_collection_version` as a catalog parameter
 
 . Fork and clone https://github.com/agnosticd/showroom[agnosticd/showroom].
 . Make changes to roles, defaults, tasks, or templates.
-. Test locally using a standalone playbook if possible (see xref:ocp4-role-reference.adoc[OCP4 examples] or xref:vm-role-reference.adoc[VM examples]).
 . Test on the platform using the test catalog items.
 . Open a pull request.
 
