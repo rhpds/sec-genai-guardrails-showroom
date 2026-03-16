@@ -48,7 +48,7 @@ about how he got it to recommend a vacation schedule for Malaga._
 
 Take 2 minutes asking questions, and then come back to the instructions. 
 
-**Click**
+**Open up the below link in a new tab**
 
 https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
 

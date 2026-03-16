@@ -19,7 +19,7 @@ This allows us to make fast changes without disrupting the rest of the applicati
 
 _You put it on your to do list to thank them for not having to re-program, build and deploy the container every time you want to do a small update._
 
-Let's login to OpenShift
+Let's login to OpenShift (again, open it up on a new tab)
 
 
 {openshift_console_url}[OpenShift Console,window=_blank]
