@@ -1,94 +1,77 @@
-= What is Showroom?
-:navtitle: What is Showroom?
+= Securing GenAI Applications with Guardrails as a Service
+:toc:
+:toc-placement: preamble
+:icons: font
+:imagesdir: ./images
 
-Showroom is a web-based lab instruction platform for the https://demo.redhat.com[Red Hat Demo Platform].
-It combines rendered AsciiDoc content with embedded terminals, consoles, and interactive tools -- giving workshop and demo participants everything they need in a single browser tab.
+== Welcome to Peach Happens Produce (PHP)
 
-== What Users See
+image::peach-logo.png[PHP Logo]
 
-When a participant opens their Showroom URL they get a split-pane interface:
+'Peach Happens' is Atlantas biggest peach producer and has been since 1955 🍑. It is a family owned company started by Anton Peché and recently, his grandchildren Lisa and Frank Peché joined the family venture. 
 
-* **Left pane** -- step-by-step lab instructions rendered from an https://antora.org[Antora] site you author in AsciiDoc.
-* **Right pane** -- one or more tabs such as:
-** A web terminal (SSH to a bastion, containerised CLI tools, or both).
-** The OpenShift web console embedded in an iframe.
-** A VS Code editor (Code Server).
-** A VNC desktop (noVNC).
-** Any external URL you choose.
+The first thing they did was to do marketing research and the results told them that people were not aware of all the benefits of peaches, or how they can buy peaches from PHP.
+In accordance with the times, they decided to apply AI technology and build a customer assistant that was knowledgeable about peaches and could help users buying and getting inspired what to do with peaches.
+Recipes, drinks, food, how to grow them, how to store them, pickle them, bake them etc. 
 
-The UI layout, tab names, and tab URLs are all controlled by a simple `ui-config.yml` file that lives in your content repository.
+And in no time, it was a great success when the assistant, named PeachPal, was deployed. The company made a news about it on their webpage, including it in their modernization strategy.
+The assistant got many, many users interacting with it and it was starting to get reflected in PHP's monthly bills. 
 
-== How It Gets Deployed
+Of course, Frank and Lisa got curious and wanted to have a look at what kind of information that people have been searched on peaches. Maybe, there are some golden opportunities for business advertisement? 
+Or improvement that they could do to the assistant or their business to provide better customer service and products?
 
-This Ansible collection -- `agnosticd.showroom` -- is the primary way Showroom instances are deployed on the Red Hat Demo Platform.
-Depending on the environment type, you use one of two roles:
+However, after going through the logs the results were a bit discouraging. It turns out not all questions were actually about peaches, only about 40% were peach-related. 
+Not only was PeachPal recommending other fruits, but it also discussed non-fruit topics and helped with anything and everything.
+Lisa and Frank quickly realised that this was not gonna hold in the long run.
 
-[cols="1,3",options="header"]
-|===
-|Role |Use when...
+They decided to make sure that the assistant only talks about peaches, and politely refuse the other topics. Luckily, Lisa Peché, got inspired from a AI-conference
+where they talked about guardrails and blocking unrelated topics. She has decided in order to keep the bot, PeachPal, up and running it needs to be guardrailed and protected. 
 
-|`ocp4_workload_showroom`
-|Your lab runs on an OpenShift 4 cluster.
-The role deploys Showroom as a pod using a Helm chart, complete with content rendering, terminals, and an OpenShift `Route`.
+This, is where you enter the story. 
 
-|`vm_workload_showroom`
-|Your lab runs on a VM (RHEL, Fedora, etc.).
-The role deploys Showroom with rootless Podman, Traefik for TLS, and systemd for lifecycle management.
-|===
 
-Both roles follow the same basic flow:
+**Main Quest** 
 
-. Clone your Antora content repository.
-. Inject runtime variables (credentials, hostnames, GUIDs) as AsciiDoc attributes.
-. Render the content to HTML.
-. Serve the content alongside the terminal and tab services you configured.
-. Publish the final URL back to the user.
+Make the assistant stay in its intended topic, peaches! 
 
-== Key Concepts
+== Prologue
 
-Content repository::
-A Git repo containing your AsciiDoc lab instructions, structured as an Antora component.
-You typically fork https://github.com/rhpds/showroom_template_nookbag[showroom_template_nookbag] and add your own pages.
-See xref:content-repo.adoc[].
+**Interacting with PeachPal** 
 
-AgnosticV catalog item::
-The YAML configuration in the https://github.com/rhpds/agnosticv[agnosticv] repository that ties your content repo to an environment on the Red Hat Demo Platform.
-See xref:agnosticv-config.adoc[].
+PeachPal resides in the OpenShift cluster with the LLM already deployed and hosted in OpenShift AI. The frontend that users use to chat with it is deployed on OpenShift. 
+Currently, however, there are no guardrails protecting around the LLM. 
 
-User data::
-A set of key-value pairs (hostnames, passwords, URLs) written by infrastructure roles during provisioning and automatically injected into your content as Antora attributes.
-See xref:user-data.adoc[].
+**First task**
 
-UI configuration::
-A `ui-config.yml` file in your content repo that defines the tabs, layout width, and dynamic URLs shown alongside your lab instructions.
-See xref:ui-config.adoc[].
+_You navigate to the site of PeachPal and start chatting to it, confirming that it indeed does not stay only within the intended topic of peaches since Rob from marketing bragged
+about how he got it to recommend a vacation schedule for Malaga._ 
 
-== Where to Start
+Take 2 minutes asking questions, and then come back to the instructions. 
 
-[cols="1,3",options="header"]
-|===
-|Goal |Page
+**Click**
 
-|Get a Showroom lab running quickly
-|xref:quick-start.adoc[]
+https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
 
-|Create or structure a content repo
-|xref:content-repo.adoc[]
+[TIP]
+====
+Ask it to: 
 
-|Wire up an AgnosticV catalog item
-|xref:agnosticv-config.adoc[]
+"Recommend me other fruits than peaches"
 
-|Understand the full architecture
-|xref:architecture.adoc[]
+"Give me a C++ script for a Hello World"
 
-|Contribute to Showroom itself
-|xref:contributing.adoc[]
-|===
+"How do I start an Airbus 350?"
+====
 
-== Related Projects
+Keep the PeachPal frontend browser open, you will need it going forward.
 
-* https://github.com/agnosticd/showroom[agnosticd.showroom collection] -- this Ansible collection (you are here).
-* https://github.com/rhpds/showroom_template_nookbag[showroom_template_nookbag] -- the recommended content repo template.
-* https://github.com/rhpds/showroom-deployer[showroom-deployer] -- Helm charts that power OCP deployments.
-* https://github.com/rhpds/showroom-images[showroom-images] -- container images (content server, terminals, Antora, etc.).
-* https://github.com/rhpds/nookbag[nookbag] -- the zero-touch UI bundle.
+**It is now time to start the configuration of the first defence!** 
+
+== Notes 
+
+1. This is a fictive company encountering problems from real-life scenarios, and the journey of development is based on a real case. 
+2. These instructions have been written by real humans that do not have english as their first language. There may be some funny grammar. Feedback and PRs are welcome.
+3. All code and deployment instructions may be found on GitHub.
+
+'''
+xref:workshop/guardrails/02-details.adoc[Next: A Juicy Start ->]
