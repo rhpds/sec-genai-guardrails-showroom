@@ -1,10 +1,10 @@
 ---
 site:
   title: Securing GenAI Applications with Guardrails as a Service
+  url: https://github.com/rhpds/sec-genai-guardrails-showroom
   start_page: modules::workshop/guardrails/01-overview.adoc
 
 content:
-  edit_url: 'https://github.com/rhpds/private-summit-llmaas-showroom/edit/dev/{path}'
   sources:
     - url: .
       start_path: content
