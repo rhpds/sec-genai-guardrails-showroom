@@ -1,4 +1,4 @@
-* xref:workshop/guardrails/01-overview.adoc[Prologue]
+* xref:index.adoc[Prologue]
 * xref:workshop/guardrails/02-details.adoc[A Juicy Start]
 * xref:workshop/guardrails/03-module-01.adoc[The Forbidden Fruits]
 * xref:workshop/guardrails/04-module-02.adoc[A Bad Apple]
