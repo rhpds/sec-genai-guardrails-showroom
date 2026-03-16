@@ -1,5 +1,5 @@
 name: modules
-title: Showroom Collection
+title: Securing GenAI Applications with Guardrails as a Service
 version: master
 start_page: workshop/guardrails/01-overview.adoc
 nav:
