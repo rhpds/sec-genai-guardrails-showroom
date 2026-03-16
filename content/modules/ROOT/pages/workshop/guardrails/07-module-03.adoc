@@ -127,7 +127,7 @@ chunkers:
         port: 8085
 openai: 
   service:
-    hostname: litellm-prod.apps.maas.redhatworkshops.io
+    hostname: granite-3-2-8b-instruct-predictor-maas-apicast-production.apps.maas.redhatworkshops.io
     port: 443
     tls: external_llm
 detectors:
