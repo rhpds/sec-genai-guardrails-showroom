@@ -45,6 +45,10 @@ image:launcher.png[Launcher]
 Behind the launcher awaits the namespace in which the application is deployed.
 
 _You follow the red bubbles in the below image to get to the configmaps._
+[TIP]
+====
+If you see "Restricted access" error, check the image below and make sure that you picked {user}-peachpal project on the top.
+====
 image:step-to-systemprompt.png[Getting there]
 
 
