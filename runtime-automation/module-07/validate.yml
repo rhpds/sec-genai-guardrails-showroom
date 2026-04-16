@@ -10,6 +10,7 @@
   gather_facts: false
   vars:
     student_user: "{{ user | default('') }}"
+    ns: "{{ user }}-peachpal"
   tasks:
 
     # -------------------------------------------------------
@@ -22,7 +23,7 @@
         api_version: v1
         kind: ConfigMap
         name: fms-orchestr8-config-nlp
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_nlp_cm
       ignore_errors: true
 
@@ -36,7 +37,7 @@
         api_version: v1
         kind: ConfigMap
         name: fms-orchestr8-config-gateway
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_gateway_cm
       ignore_errors: true
 
@@ -50,7 +51,7 @@
         api_version: apps/v1
         kind: Deployment
         name: guardrails-orchestrator
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_guardrails_deploy
       ignore_errors: true
 

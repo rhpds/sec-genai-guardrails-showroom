@@ -11,6 +11,7 @@
   gather_facts: false
   vars:
     oc: "oc --kubeconfig={{ k8s_kubeconfig }}"
+    ns: "{{ user }}-peachpal"
   tasks:
 
     # ── Quest 2, Step 1: Update the system prompt ConfigMap ─────────────────
@@ -24,7 +25,7 @@
           kind: ConfigMap
           metadata:
             name: peachpal-system-prompt
-            namespace: "{{ student_ns | default('default', true) | trim }}"
+            namespace: "{{ ns }}"
             labels:
               app: peachpal
               app.kubernetes.io/component: config
@@ -41,7 +42,7 @@
     - name: Delete peachpal pod to reload ConfigMap
       ansible.builtin.shell: >-
         {{ oc }} delete pod -l app=peachpal
-        -n {{ student_ns }}
+        -n {{ ns }}
         --ignore-not-found=true
       register: r_delete
       changed_when: "'deleted' in r_delete.stdout"
@@ -54,7 +55,7 @@
         api_version: apps/v1
         kind: Deployment
         name: peachpal
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_deploy
       until: >-
         r_deploy.resources | length > 0 and

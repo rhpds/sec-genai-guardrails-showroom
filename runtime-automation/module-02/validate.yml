@@ -9,6 +9,7 @@
   gather_facts: false
   vars:
     student_user: "{{ user | default('') }}"
+    ns: "{{ user }}-peachpal"
   tasks:
 
     # -------------------------------------------------------
@@ -21,7 +22,7 @@
         api_version: v1
         kind: ConfigMap
         name: peachpal-system-prompt
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_prompt_cm
       ignore_errors: true
 
@@ -35,7 +36,7 @@
         api_version: apps/v1
         kind: Deployment
         name: peachpal
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_deploy
       ignore_errors: true
 
@@ -63,4 +64,4 @@
           ✅ Task 2: PeachPal deployment is running with updated config
         error_msg: |
           {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'System prompt updated correctly' if _task1_ok else 'System prompt missing peach instructions — edit the peachpal-system-prompt ConfigMap and set the prompt key to include "only talk about peaches" and "Peach Happens Produce"' }}
-          {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'PeachPal pod is running' if _task2_ok else 'PeachPal pod not ready — delete the peachpal pod in namespace ' + student_ns + ' to force a restart' }}
+          {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'PeachPal pod is running' if _task2_ok else 'PeachPal pod not ready — delete the peachpal pod in namespace ' + ns + ' to force a restart' }}

@@ -14,6 +14,7 @@
   gather_facts: false
   vars:
     oc: "oc --kubeconfig={{ k8s_kubeconfig }}"
+    ns: "{{ user }}-peachpal"
   tasks:
 
     # ── Quest 1, Step 1: Enable guardrails in peachpal-config ───────────────
@@ -27,7 +28,7 @@
           kind: ConfigMap
           metadata:
             name: peachpal-config
-            namespace: "{{ student_ns | default('default', true) | trim }}"
+            namespace: "{{ ns }}"
             labels:
               app: peachpal
               app.kubernetes.io/component: config
@@ -43,7 +44,7 @@
     - name: Delete peachpal pod to reload ConfigMap
       ansible.builtin.shell: >-
         {{ oc }} delete pod -l app=peachpal
-        -n {{ student_ns }}
+        -n {{ ns }}
         --ignore-not-found=true
       register: r_delete_peachpal
       changed_when: "'deleted' in r_delete_peachpal.stdout"
@@ -55,7 +56,7 @@
         api_version: apps/v1
         kind: Deployment
         name: peachpal
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_peachpal_deploy
       until: >-
         r_peachpal_deploy.resources | length > 0 and
@@ -75,7 +76,7 @@
           kind: ConfigMap
           metadata:
             name: fms-orchestr8-config-gateway
-            namespace: "{{ student_ns | default('default', true) | trim }}"
+            namespace: "{{ ns }}"
             labels:
               app: fmstack-nlp
           data:
@@ -107,7 +108,7 @@
         api_version: apps/v1
         kind: Deployment
         name: guardrails-orchestrator
-        namespace: "{{ student_ns | default('default', true) | trim }}"
+        namespace: "{{ ns }}"
       register: r_guardrails_deploy
       until: >-
         r_guardrails_deploy.resources | length > 0 and
