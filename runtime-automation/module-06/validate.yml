@@ -74,7 +74,7 @@
     # Validate all tasks
     # -------------------------------------------------------
     - name: Validate all tasks
-      rhpds.ftl.validation_check:
+      validation_check:
         check: "{{ _task1_ok and _task2_ok and _task3_ok }}"
         pass_msg: |
           ✅ Task 1: NLP config has HAP detector (guardrails-detector-ibm-hap-predictor.gaas.svc.cluster.local:8000)
