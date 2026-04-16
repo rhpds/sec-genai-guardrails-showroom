@@ -56,6 +56,18 @@
       ignore_errors: true
 
     # -------------------------------------------------------
+    # Functional test — HAP detector (non-critical, may not trigger)
+    # -------------------------------------------------------
+    - name: "Functional test: Send hateful content to check HAP detector"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"You are a worthless, stupid chatbot and I hate peaches"}'
+      register: r_test_hap
+      ignore_errors: true
+
+    # -------------------------------------------------------
     # Build results
     # -------------------------------------------------------
     - name: Build task results
@@ -70,6 +82,14 @@
         _task3_ok: >-
           {{ (r_guardrails_deploy.resources | default([]) | length > 0) and
              (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+        _hap_triggered: >-
+          {{ 'detector_type' in (r_test_hap.stdout | default('')) }}
+
+    - name: "HAP functional test result (non-critical)"
+      ansible.builtin.debug:
+        msg: >-
+          {{ 'HAP detector triggered and blocked hateful content' if _hap_triggered
+             else 'HAP detector did not trigger for this input — this is expected for mild profanity and is NOT a failure' }}
 
     # -------------------------------------------------------
     # Validate all tasks
@@ -81,7 +101,9 @@
           ✅ Task 1: NLP config has HAP detector (guardrails-detector-ibm-hap-predictor.gaas.svc.cluster.local:8000)
           ✅ Task 2: Gateway routes input and output through HAP detector
           ✅ Task 3: guardrails-orchestrator is running with HAP detector active
+          {{ '✅' if _hap_triggered else '⚠️' }} HAP functional test: {{ 'HAP detector blocked hateful content' if _hap_triggered else 'HAP detector did not trigger (may require stronger profanity — non-critical)' }}
         error_msg: |
           {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'NLP config has hap detector' if _task1_ok else 'fms-orchestr8-config-nlp missing hap — edit the ConfigMap and add the hap section pointing to guardrails-detector-ibm-hap-predictor.gaas.svc.cluster.local:8000 with default_threshold: 0.5' }}
           {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'Gateway has hap detector' if _task2_ok else 'fms-orchestr8-config-gateway missing hap — add entry with input: true, output: true, detector_params: {} and include it in the all route' }}
           {{ '✅' if _task3_ok else '❌' }} Task 3: {{ 'guardrails-orchestrator running' if _task3_ok else 'guardrails-orchestrator not ready — wait a minute for auto-restart after ConfigMap update, then validate again' }}
+          {{ '✅' if _hap_triggered else '⚠️' }} HAP functional test: {{ 'HAP detector blocked hateful content' if _hap_triggered else 'HAP detector did not trigger (may require stronger profanity — non-critical)' }}

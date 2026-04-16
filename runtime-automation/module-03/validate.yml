@@ -71,6 +71,18 @@
       ignore_errors: true
 
     # -------------------------------------------------------
+    # Functional test — regex detector blocks forbidden fruits
+    # -------------------------------------------------------
+    - name: "Functional test: Send forbidden fruit to verify regex detector blocks"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Tell me about apples"}'
+      register: r_test_regex
+      ignore_errors: true
+
+    # -------------------------------------------------------
     # Build results
     # -------------------------------------------------------
     - name: Build task results
@@ -89,20 +101,24 @@
         _task4_ok: >-
           {{ (r_guardrails_deploy.resources | default([]) | length > 0) and
              (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+        _test1_ok: >-
+          {{ 'detector_type' in (r_test_regex.stdout | default('')) }}
 
     # -------------------------------------------------------
     # Validate all tasks
     # -------------------------------------------------------
     - name: Validate all tasks
       validation_check:
-        check: "{{ _task1_ok and _task2_ok and _task3_ok and _task4_ok }}"
+        check: "{{ _task1_ok and _task2_ok and _task3_ok and _task4_ok and _test1_ok }}"
         pass_msg: |
           ✅ Task 1: GUARDRAILS_ENABLED is true in peachpal-config
           ✅ Task 2: PeachPal deployment is running with guardrails enabled
           ✅ Task 3: Gateway regex includes full fruit list (nectarine, plum, apricot...)
           ✅ Task 4: guardrails-orchestrator is running with updated config
+          ✅ Test 1: Regex detector blocked forbidden fruit mention (apples)
         error_msg: |
           {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'GUARDRAILS_ENABLED is true' if _task1_ok else 'GUARDRAILS_ENABLED not set to true — edit peachpal-config ConfigMap and change GUARDRAILS_ENABLED to true' }}
           {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'PeachPal pod running' if _task2_ok else 'PeachPal pod not ready — delete the peachpal pod in ' + ns + ' to force restart' }}
           {{ '✅' if _task3_ok else '❌' }} Task 3: {{ 'Gateway regex has full fruit list' if _task3_ok else 'Gateway regex incomplete — edit fms-orchestr8-config-gateway and set regex to: (?i)\\b(orange|apple|nectarine|plum|apricot|banana|grape|melon|pineapple|lime)s?\\b' }}
           {{ '✅' if _task4_ok else '❌' }} Task 4: {{ 'guardrails-orchestrator running' if _task4_ok else 'guardrails-orchestrator not ready — wait a minute for auto-restart after ConfigMap update, then validate again' }}
+          {{ '✅' if _test1_ok else '❌' }} Test 1: {{ 'Regex detector blocked "apples"' if _test1_ok else 'Regex detector did not block — expected detector_type in response when sending "Tell me about apples"' }}

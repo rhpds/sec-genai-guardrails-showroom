@@ -63,6 +63,15 @@
       retries: 24
       delay: 5
 
+    # ── Generate guardrail traffic for dashboard metrics ────────────────────
+    - name: "Test: Send a peach question to verify PeachPal responds"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"What are the best peach recipes?"}'
+      ignore_errors: true
+
     # ── Report ───────────────────────────────────────────────────────────────
     - name: Report solve status
       ansible.builtin.debug:

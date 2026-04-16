@@ -116,6 +116,31 @@
       retries: 36
       delay: 5
 
+    # ── Generate guardrail traffic for dashboard metrics ────────────────────
+    - name: "Test: Send forbidden fruit — apples (regex detector)"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Tell me about apples"}'
+      ignore_errors: true
+
+    - name: "Test: Send forbidden fruit — oranges (regex detector)"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"What about oranges?"}'
+      ignore_errors: true
+
+    - name: "Test: Send forbidden fruit — nectarines (regex detector)"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Recommend me nectarines"}'
+      ignore_errors: true
+
     # ── Report ───────────────────────────────────────────────────────────────
     - name: Report solve status
       ansible.builtin.debug:

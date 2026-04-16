@@ -56,6 +56,18 @@
       ignore_errors: true
 
     # -------------------------------------------------------
+    # Functional test — output_statistics tracks but does not block
+    # -------------------------------------------------------
+    - name: "Functional test: Send off-topic request to verify output_statistics passes through"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Tell me about other fruits"}'
+      register: r_test_stats
+      ignore_errors: true
+
+    # -------------------------------------------------------
     # Build results
     # -------------------------------------------------------
     - name: Build task results
@@ -70,18 +82,22 @@
         _task3_ok: >-
           {{ (r_guardrails_deploy.resources | default([]) | length > 0) and
              (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+        _test1_ok: >-
+          {{ '"type"' in (r_test_stats.stdout | default('')) and '"chunk"' in (r_test_stats.stdout | default('')) }}
 
     # -------------------------------------------------------
     # Validate all tasks
     # -------------------------------------------------------
     - name: Validate all tasks
       validation_check:
-        check: "{{ _task1_ok and _task2_ok and _task3_ok }}"
+        check: "{{ _task1_ok and _task2_ok and _task3_ok and _test1_ok }}"
         pass_msg: |
           ✅ Task 1: NLP config has output_statistics detector configured
           ✅ Task 2: Gateway routes output through output_statistics with refusal_tracker
           ✅ Task 3: guardrails-orchestrator is running with output_statistics active
+          ✅ Test 1: Request passed through to LLM (output_statistics tracks without blocking)
         error_msg: |
           {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'NLP config has output_statistics' if _task1_ok else 'fms-orchestr8-config-nlp missing output_statistics — edit the ConfigMap and add the output_statistics section pointing to 127.0.0.1:8080 with default_threshold: 0.5' }}
           {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'Gateway has output_statistics with refusal_tracker' if _task2_ok else 'fms-orchestr8-config-gateway missing output_statistics or refusal_tracker — add entry with input: false, output: true, detector_params: {custom: [refusal_tracker]} and include it in the all route' }}
           {{ '✅' if _task3_ok else '❌' }} Task 3: {{ 'guardrails-orchestrator running' if _task3_ok else 'guardrails-orchestrator not ready — wait a minute for auto-restart after ConfigMap update, then validate again' }}
+          {{ '✅' if _test1_ok else '❌' }} Test 1: {{ 'Request passed through (output_statistics is non-blocking)' if _test1_ok else 'PeachPal did not return chunk response — check that the route is accessible and guardrails-orchestrator is running' }}

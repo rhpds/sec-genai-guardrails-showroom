@@ -56,6 +56,18 @@
       ignore_errors: true
 
     # -------------------------------------------------------
+    # Functional test — language detection blocks non-English
+    # -------------------------------------------------------
+    - name: "Functional test: Send Spanish text to verify language detector blocks"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Los duraznos son malos, soy alergico. Puedes recomendarme otras frutas?"}'
+      register: r_test_language
+      ignore_errors: true
+
+    # -------------------------------------------------------
     # Build results
     # -------------------------------------------------------
     - name: Build task results
@@ -70,18 +82,22 @@
         _task3_ok: >-
           {{ (r_guardrails_deploy.resources | default([]) | length > 0) and
              (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+        _test1_ok: >-
+          {{ 'detector_type' in (r_test_language.stdout | default('')) }}
 
     # -------------------------------------------------------
     # Validate all tasks
     # -------------------------------------------------------
     - name: Validate all tasks
       validation_check:
-        check: "{{ _task1_ok and _task2_ok and _task3_ok }}"
+        check: "{{ _task1_ok and _task2_ok and _task3_ok and _test1_ok }}"
         pass_msg: |
           ✅ Task 1: NLP config has language_detection detector (lingua-detector.gaas.svc.cluster.local:8080)
           ✅ Task 2: Gateway routes input and output through language_detection detector
           ✅ Task 3: guardrails-orchestrator is running with language detector active
+          ✅ Test 1: Language detector blocked non-English input (Spanish)
         error_msg: |
           {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'NLP config has language_detection' if _task1_ok else 'fms-orchestr8-config-nlp missing language_detection — edit the ConfigMap and add the language_detection section pointing to lingua-detector.gaas.svc.cluster.local:8080 with default_threshold: 0.88' }}
           {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'Gateway has language_detection' if _task2_ok else 'fms-orchestr8-config-gateway missing language_detection detector — add entry with input: true, output: true, detector_params: {} and include it in the all route' }}
           {{ '✅' if _task3_ok else '❌' }} Task 3: {{ 'guardrails-orchestrator running' if _task3_ok else 'guardrails-orchestrator not ready — wait a minute for auto-restart after ConfigMap update, then validate again' }}
+          {{ '✅' if _test1_ok else '❌' }} Test 1: {{ 'Language detector blocked Spanish input' if _test1_ok else 'Language detector did not block — expected detector_type in response when sending Spanish text' }}

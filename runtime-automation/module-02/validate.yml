@@ -41,6 +41,18 @@
       ignore_errors: true
 
     # -------------------------------------------------------
+    # Functional test — verify PeachPal responds (no guardrails yet)
+    # -------------------------------------------------------
+    - name: "Functional test: Send peach question to verify system prompt works"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Tell me about peaches"}'
+      register: r_test_chat
+      ignore_errors: true
+
+    # -------------------------------------------------------
     # Build results
     # -------------------------------------------------------
     - name: Build task results
@@ -52,16 +64,20 @@
         _task2_ok: >-
           {{ (r_deploy.resources | default([]) | length > 0) and
              (r_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+        _test1_ok: >-
+          {{ '"type"' in (r_test_chat.stdout | default('')) and '"chunk"' in (r_test_chat.stdout | default('')) }}
 
     # -------------------------------------------------------
     # Validate all tasks
     # -------------------------------------------------------
     - name: Validate all tasks
       validation_check:
-        check: "{{ _task1_ok and _task2_ok }}"
+        check: "{{ _task1_ok and _task2_ok and _test1_ok }}"
         pass_msg: |
           ✅ Task 1: peachpal-system-prompt contains peach-focused instructions
           ✅ Task 2: PeachPal deployment is running with updated config
+          ✅ Test 1: PeachPal responds with chunk data (system prompt active)
         error_msg: |
           {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'System prompt updated correctly' if _task1_ok else 'System prompt missing peach instructions — edit the peachpal-system-prompt ConfigMap and set the prompt key to include "only talk about peaches" and "Peach Happens Produce"' }}
           {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'PeachPal pod is running' if _task2_ok else 'PeachPal pod not ready — delete the peachpal pod in namespace ' + ns + ' to force a restart' }}
+          {{ '✅' if _test1_ok else '❌' }} Test 1: {{ 'PeachPal responded with chunk data' if _test1_ok else 'PeachPal did not return expected chunk response — check that the peachpal route is accessible and the pod is running' }}

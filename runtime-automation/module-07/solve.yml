@@ -157,6 +157,31 @@
       retries: 36
       delay: 5
 
+    # ── Generate guardrail traffic for dashboard metrics ────────────────────
+    - name: "Test: Ask about other fruits (triggers system prompt refusal for metrics)"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Tell me about other fruits"}'
+      ignore_errors: true
+
+    - name: "Test: Ask about cars (triggers system prompt refusal for metrics)"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Suggest me a car"}'
+      ignore_errors: true
+
+    - name: "Test: Ask about Airbus (triggers system prompt refusal for metrics)"
+      ansible.builtin.shell: >-
+        curl -sk --max-time 30
+        'https://peachpal-{{ user }}-peachpal.{{ openshift_cluster_ingress_domain }}/api/chat'
+        -H 'Content-Type: application/json'
+        -d '{"message":"Give me instructions to start an Airbus"}'
+      ignore_errors: true
+
     # ── Report ───────────────────────────────────────────────────────────────
     - name: Report solve status
       ansible.builtin.debug:
