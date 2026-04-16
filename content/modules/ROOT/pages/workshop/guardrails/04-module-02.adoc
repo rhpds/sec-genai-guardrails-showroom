@@ -243,5 +243,12 @@ Monitoring the evolution of prompt hacks, and from time having validating checks
 
 Better you finding it out then waiting for someone to find out for you.
 
+++++
+<div class="solve-button-placeholder" data-module="module-04"></div>
+++++
+++++
+<div class="validate-button-placeholder" data-module="module-04"></div>
+++++
+
 '''
 xref:workshop/guardrails/05-module-03.adoc[Next: Cherrypicking ->]

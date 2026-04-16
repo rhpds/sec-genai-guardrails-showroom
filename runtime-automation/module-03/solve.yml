@@ -1,0 +1,126 @@
+---
+# SOLVE — Module 03: The Forbidden Fruits
+# Quest 1: Enable guardrails (peachpal-config GUARDRAILS_ENABLED → true, restart pod)
+# Quest 2: Update fms-orchestr8-config-gateway with full fruit regex (intermediate state)
+#
+# Solver source:
+#   Quest 1 — peachpal-config.yaml from peachpal-solver (exact match)
+#   Quest 2 — intermediate gateway state (regex_competitor only, NOT final solver state)
+#   TrustyAI auto-restarts when ConfigMap changes — no manual pod delete needed for Quest 2
+
+- name: Module 03 Solve
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    oc: "oc --kubeconfig={{ k8s_kubeconfig }}"
+  tasks:
+
+    # ── Quest 1, Step 1: Enable guardrails in peachpal-config ───────────────
+    - name: Apply peachpal-config with GUARDRAILS_ENABLED true
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: peachpal-config
+            namespace: "{{ student_ns | default('default', true) | trim }}"
+            labels:
+              app: peachpal
+              app.kubernetes.io/component: config
+              app.kubernetes.io/name: peachpal
+          data:
+            GUARDRAILS_ENABLED: 'true'
+            LOG_LEVEL: DEBUG
+            MAX_TOKENS: '300'
+            TEMPERATURE: '0'
+            VLLM_MODEL: granite-3-2-8b-instruct
+
+    # ── Quest 1, Step 2: Restart peachpal pod to pick up the ConfigMap ──────
+    - name: Delete peachpal pod to reload ConfigMap
+      ansible.builtin.shell: >-
+        {{ oc }} delete pod -l app=peachpal
+        -n {{ student_ns }}
+        --ignore-not-found=true
+      register: r_delete_peachpal
+      changed_when: "'deleted' in r_delete_peachpal.stdout"
+
+    - name: Wait for peachpal deployment to be ready
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: peachpal
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_peachpal_deploy
+      until: >-
+        r_peachpal_deploy.resources | length > 0 and
+        (r_peachpal_deploy.resources[0].status.readyReplicas | default(0) | int) >= 1
+      retries: 24
+      delay: 5
+
+    # ── Quest 2, Step 1: Update gateway with full fruit regex ────────────────
+    # Intermediate state — regex_competitor only (prompt_injection added in module 04)
+    - name: Apply fms-orchestr8-config-gateway with full fruit regex
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: fms-orchestr8-config-gateway
+            namespace: "{{ student_ns | default('default', true) | trim }}"
+            labels:
+              app: fmstack-nlp
+          data:
+            config.yaml: |
+              orchestrator:
+                host: "localhost"
+                port: 8032
+              detectors:
+                - name: regex_competitor
+                  input: true
+                  output: true
+                  detector_params:
+                    regex:
+                      - (?i)\b(orange|apple|nectarine|plum|apricot|banana|grape|melon|pineapple|lime)s?\b
+              routes:
+                - name: all
+                  detectors:
+                    - regex_competitor
+                - name: passthrough
+                  detectors:
+
+    # ── Quest 2, Step 2: Wait for TrustyAI to auto-restart ─────────────────
+    # TrustyAI watches ConfigMaps and restarts automatically — no manual pod delete.
+    # guardrails-orchestrator pod has 3 containers (confirmed from screenshots).
+    - name: Wait for guardrails-orchestrator deployment to be ready
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: guardrails-orchestrator
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_guardrails_deploy
+      until: >-
+        r_guardrails_deploy.resources | length > 0 and
+        (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int) >= 1
+      retries: 36
+      delay: 5
+
+    # ── Report ───────────────────────────────────────────────────────────────
+    - name: Report solve status
+      ansible.builtin.debug:
+        msg: |
+          peachpal-config GUARDRAILS_ENABLED: ok
+          peachpal pod restarted: {{ 'ok' if 'deleted' in r_delete_peachpal.stdout else 'no pod found (may already be correct)' }}
+          peachpal deployment ready: {{ 'ok' if (r_peachpal_deploy.resources | length > 0 and r_peachpal_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) else 'NOT ready' }}
+          fms-orchestr8-config-gateway regex updated: ok
+          guardrails-orchestrator ready: {{ 'ok' if (r_guardrails_deploy.resources | length > 0 and r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) else 'NOT ready' }}

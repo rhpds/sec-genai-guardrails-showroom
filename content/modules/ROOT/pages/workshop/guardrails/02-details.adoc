@@ -159,5 +159,12 @@ However, our lab does not end here.
 
 For you will soon discover that while the system prompt is the first layer, it is not enough.
 
+++++
+<div class="solve-button-placeholder" data-module="module-02"></div>
+++++
+++++
+<div class="validate-button-placeholder" data-module="module-02"></div>
+++++
+
 '''
 xref:workshop/guardrails/03-module-01.adoc[Next: The Forbidden Fruits ->]

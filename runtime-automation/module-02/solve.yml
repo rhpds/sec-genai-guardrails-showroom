@@ -1,0 +1,71 @@
+---
+# SOLVE — Module 02: A Juicy Start
+# Quest 2: Update peachpal-system-prompt ConfigMap and restart the UI pod.
+# Quest 1 (find the ConfigMap) is navigation-only — no state change, skipped.
+#
+# Solver source: peachpal-system-prompt.yaml from peachpal-solver (single-namespace adaptation)
+
+- name: Module 02 Solve
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    oc: "oc --kubeconfig={{ k8s_kubeconfig }}"
+  tasks:
+
+    # ── Quest 2, Step 1: Update the system prompt ConfigMap ─────────────────
+    - name: Apply updated peachpal-system-prompt ConfigMap
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: peachpal-system-prompt
+            namespace: "{{ student_ns | default('default', true) | trim }}"
+            labels:
+              app: peachpal
+              app.kubernetes.io/component: config
+              app.kubernetes.io/name: peachpal
+          data:
+            prompt: |
+              You are a helpful assistant specialized in peaches, working for a company called Peach Happens Produce.
+              You will only talk about peaches, no other topics are allowed.
+              If someone asks about another topic, politely decline and redirect the topic back to peaches.
+
+    # ── Quest 2, Step 2: Restart the PeachPal UI pod ───────────────────────
+    # Student deletes the pod manually — ReplicaSet recreates it automatically.
+    # Using oc delete -l selector matches exactly what the student does.
+    - name: Delete peachpal pod to reload ConfigMap
+      ansible.builtin.shell: >-
+        {{ oc }} delete pod -l app=peachpal
+        -n {{ student_ns }}
+        --ignore-not-found=true
+      register: r_delete
+      changed_when: "'deleted' in r_delete.stdout"
+
+    # ── Wait for pod to come back up ────────────────────────────────────────
+    - name: Wait for peachpal deployment to be ready
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: peachpal
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_deploy
+      until: >-
+        r_deploy.resources | length > 0 and
+        (r_deploy.resources[0].status.readyReplicas | default(0) | int) >= 1
+      retries: 24
+      delay: 5
+
+    # ── Report ───────────────────────────────────────────────────────────────
+    - name: Report solve status
+      ansible.builtin.debug:
+        msg: |
+          peachpal-system-prompt updated: {{ 'ok' if r_delete is not failed else 'check namespace' }}
+          peachpal pod restarted: {{ 'ok' if r_delete.stdout is defined else 'check pods' }}
+          peachpal deployment ready: {{ 'ok' if (r_deploy.resources | length > 0 and r_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) else 'NOT ready' }}

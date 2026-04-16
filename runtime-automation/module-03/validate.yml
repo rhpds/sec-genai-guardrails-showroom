@@ -1,0 +1,107 @@
+---
+# VALIDATE — Module 03: The Forbidden Fruits
+# Task 1: peachpal-config has GUARDRAILS_ENABLED = 'true'
+# Task 2: peachpal Deployment is ready (pod restarted with new config)
+# Task 3: fms-orchestr8-config-gateway regex includes full fruit list
+# Task 4: guardrails-orchestrator Deployment is ready (auto-restarted)
+
+- name: Module 03 Validation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    student_user: "{{ user | default('') }}"
+  tasks:
+
+    # -------------------------------------------------------
+    # Check 1 — peachpal-config has GUARDRAILS_ENABLED: true
+    # -------------------------------------------------------
+    - name: Get peachpal-config ConfigMap
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: v1
+        kind: ConfigMap
+        name: peachpal-config
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_peachpal_config
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Check 2 — peachpal Deployment is ready
+    # -------------------------------------------------------
+    - name: Get peachpal Deployment
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: peachpal
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_peachpal_deploy
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Check 3 — gateway ConfigMap has full fruit regex
+    # -------------------------------------------------------
+    - name: Get fms-orchestr8-config-gateway ConfigMap
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: v1
+        kind: ConfigMap
+        name: fms-orchestr8-config-gateway
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_gateway_cm
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Check 4 — guardrails-orchestrator Deployment is ready
+    # -------------------------------------------------------
+    - name: Get guardrails-orchestrator Deployment
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: guardrails-orchestrator
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_guardrails_deploy
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Build results
+    # -------------------------------------------------------
+    - name: Build task results
+      ansible.builtin.set_fact:
+        _task1_ok: >-
+          {{ (r_peachpal_config.resources | default([]) | length > 0) and
+             (r_peachpal_config.resources[0].data.GUARDRAILS_ENABLED | default('false') | string | lower == 'true') }}
+        _task2_ok: >-
+          {{ (r_peachpal_deploy.resources | default([]) | length > 0) and
+             (r_peachpal_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+        _task3_ok: >-
+          {{ (r_gateway_cm.resources | default([]) | length > 0) and
+             ('nectarine' in (r_gateway_cm.resources[0].data['config.yaml'] | default(''))) and
+             ('plum' in (r_gateway_cm.resources[0].data['config.yaml'] | default(''))) and
+             ('apricot' in (r_gateway_cm.resources[0].data['config.yaml'] | default(''))) }}
+        _task4_ok: >-
+          {{ (r_guardrails_deploy.resources | default([]) | length > 0) and
+             (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+
+    # -------------------------------------------------------
+    # Validate all tasks
+    # -------------------------------------------------------
+    - name: Validate all tasks
+      rhpds.ftl.validation_check:
+        check: "{{ _task1_ok and _task2_ok and _task3_ok and _task4_ok }}"
+        pass_msg: |
+          ✅ Task 1: GUARDRAILS_ENABLED is true in peachpal-config
+          ✅ Task 2: PeachPal deployment is running with guardrails enabled
+          ✅ Task 3: Gateway regex includes full fruit list (nectarine, plum, apricot...)
+          ✅ Task 4: guardrails-orchestrator is running with updated config
+        error_msg: |
+          {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'GUARDRAILS_ENABLED is true' if _task1_ok else 'GUARDRAILS_ENABLED not set to true — edit peachpal-config ConfigMap and change GUARDRAILS_ENABLED to true' }}
+          {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'PeachPal pod running' if _task2_ok else 'PeachPal pod not ready — delete the peachpal pod in ' + student_ns + ' to force restart' }}
+          {{ '✅' if _task3_ok else '❌' }} Task 3: {{ 'Gateway regex has full fruit list' if _task3_ok else 'Gateway regex incomplete — edit fms-orchestr8-config-gateway and set regex to: (?i)\\b(orange|apple|nectarine|plum|apricot|banana|grape|melon|pineapple|lime)s?\\b' }}
+          {{ '✅' if _task4_ok else '❌' }} Task 4: {{ 'guardrails-orchestrator running' if _task4_ok else 'guardrails-orchestrator not ready — wait a minute for auto-restart after ConfigMap update, then validate again' }}

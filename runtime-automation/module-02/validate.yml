@@ -1,0 +1,66 @@
+---
+# VALIDATE — Module 02: A Juicy Start
+# Task 1: peachpal-system-prompt ConfigMap has peach-focused instructions
+# Task 2: peachpal Deployment is running (pod restarted and ready)
+
+- name: Module 02 Validation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    student_user: "{{ user | default('') }}"
+  tasks:
+
+    # -------------------------------------------------------
+    # Check 1 — peachpal-system-prompt has peach-focused prompt
+    # -------------------------------------------------------
+    - name: Get peachpal-system-prompt ConfigMap
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: v1
+        kind: ConfigMap
+        name: peachpal-system-prompt
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_prompt_cm
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Check 2 — peachpal Deployment is ready
+    # -------------------------------------------------------
+    - name: Get peachpal Deployment
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: peachpal
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_deploy
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Build results
+    # -------------------------------------------------------
+    - name: Build task results
+      ansible.builtin.set_fact:
+        _task1_ok: >-
+          {{ (r_prompt_cm.resources | default([]) | length > 0) and
+             ('only talk about peaches' in (r_prompt_cm.resources[0].data.prompt | default(''))) and
+             ('Peach Happens Produce' in (r_prompt_cm.resources[0].data.prompt | default(''))) }}
+        _task2_ok: >-
+          {{ (r_deploy.resources | default([]) | length > 0) and
+             (r_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+
+    # -------------------------------------------------------
+    # Validate all tasks
+    # -------------------------------------------------------
+    - name: Validate all tasks
+      rhpds.ftl.validation_check:
+        check: "{{ _task1_ok and _task2_ok }}"
+        pass_msg: |
+          ✅ Task 1: peachpal-system-prompt contains peach-focused instructions
+          ✅ Task 2: PeachPal deployment is running with updated config
+        error_msg: |
+          {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'System prompt updated correctly' if _task1_ok else 'System prompt missing peach instructions — edit the peachpal-system-prompt ConfigMap and set the prompt key to include "only talk about peaches" and "Peach Happens Produce"' }}
+          {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'PeachPal pod is running' if _task2_ok else 'PeachPal pod not ready — delete the peachpal pod in namespace ' + student_ns + ' to force a restart' }}

@@ -222,5 +222,12 @@ You can try it in PeachPal. Write A.P.P.L.E or O.R.A.N.G.E or similar.
 Writing regex for all possible scenarios of bypassing it is also not realistic and would take a very long time. 
 Therefore, relying on regex alone is not enough but a first good efficient filter.
 
+++++
+<div class="solve-button-placeholder" data-module="module-03"></div>
+++++
+++++
+<div class="validate-button-placeholder" data-module="module-03"></div>
+++++
+
 '''
 xref:workshop/guardrails/04-module-02.adoc[Next: A Bad Apple ->]

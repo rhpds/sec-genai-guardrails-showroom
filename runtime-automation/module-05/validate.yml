@@ -1,0 +1,86 @@
+---
+# VALIDATE — Module 05: Cherrypicking
+# Task 1: fms-orchestr8-config-nlp config.yaml has language_detection pointing to lingua-detector
+# Task 2: fms-orchestr8-config-gateway config.yaml has language_detection (input+output: true)
+# Task 3: guardrails-orchestrator Deployment is ready
+
+- name: Module 05 Validation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    student_user: "{{ user | default('') }}"
+  tasks:
+
+    # -------------------------------------------------------
+    # Check 1 — NLP config has language_detection detector
+    # -------------------------------------------------------
+    - name: Get fms-orchestr8-config-nlp ConfigMap
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: v1
+        kind: ConfigMap
+        name: fms-orchestr8-config-nlp
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_nlp_cm
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Check 2 — gateway config has language_detection (both directions)
+    # -------------------------------------------------------
+    - name: Get fms-orchestr8-config-gateway ConfigMap
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: v1
+        kind: ConfigMap
+        name: fms-orchestr8-config-gateway
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_gateway_cm
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Check 3 — guardrails-orchestrator is ready
+    # -------------------------------------------------------
+    - name: Get guardrails-orchestrator Deployment
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: guardrails-orchestrator
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_guardrails_deploy
+      ignore_errors: true
+
+    # -------------------------------------------------------
+    # Build results
+    # -------------------------------------------------------
+    - name: Build task results
+      ansible.builtin.set_fact:
+        _task1_ok: >-
+          {{ (r_nlp_cm.resources | default([]) | length > 0) and
+             ('language_detection' in (r_nlp_cm.resources[0].data['config.yaml'] | default(''))) and
+             ('lingua-detector' in (r_nlp_cm.resources[0].data['config.yaml'] | default(''))) }}
+        _task2_ok: >-
+          {{ (r_gateway_cm.resources | default([]) | length > 0) and
+             ('language_detection' in (r_gateway_cm.resources[0].data['config.yaml'] | default(''))) }}
+        _task3_ok: >-
+          {{ (r_guardrails_deploy.resources | default([]) | length > 0) and
+             (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) }}
+
+    # -------------------------------------------------------
+    # Validate all tasks
+    # -------------------------------------------------------
+    - name: Validate all tasks
+      rhpds.ftl.validation_check:
+        check: "{{ _task1_ok and _task2_ok and _task3_ok }}"
+        pass_msg: |
+          ✅ Task 1: NLP config has language_detection detector (lingua-detector.gaas.svc.cluster.local:8080)
+          ✅ Task 2: Gateway routes input and output through language_detection detector
+          ✅ Task 3: guardrails-orchestrator is running with language detector active
+        error_msg: |
+          {{ '✅' if _task1_ok else '❌' }} Task 1: {{ 'NLP config has language_detection' if _task1_ok else 'fms-orchestr8-config-nlp missing language_detection — edit the ConfigMap and add the language_detection section pointing to lingua-detector.gaas.svc.cluster.local:8080 with default_threshold: 0.88' }}
+          {{ '✅' if _task2_ok else '❌' }} Task 2: {{ 'Gateway has language_detection' if _task2_ok else 'fms-orchestr8-config-gateway missing language_detection detector — add entry with input: true, output: true, detector_params: {} and include it in the all route' }}
+          {{ '✅' if _task3_ok else '❌' }} Task 3: {{ 'guardrails-orchestrator running' if _task3_ok else 'guardrails-orchestrator not ready — wait a minute for auto-restart after ConfigMap update, then validate again' }}

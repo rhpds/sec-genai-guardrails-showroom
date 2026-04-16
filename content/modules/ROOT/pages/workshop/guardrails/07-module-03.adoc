@@ -299,3 +299,10 @@ There is also a chance to bypass LLM-judges via prompt injection or attacks that
 
 LLM-decision may also be harder to trace and explain, especially in compliance-sensitive environments.
 
+++++
+<div class="solve-button-placeholder" data-module="module-07"></div>
+++++
+++++
+<div class="validate-button-placeholder" data-module="module-07"></div>
+++++
+

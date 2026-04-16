@@ -1,0 +1,164 @@
+---
+# SOLVE — Module 07: The Orchard Offensive
+# Quest 2: Add output_statistics (refusal_tracker) detector to fms-orchestr8-config-nlp
+#          and fms-orchestr8-config-gateway — FINAL state for all detectors.
+#          TrustyAI auto-restarts — no manual pod delete needed.
+#
+# Quest 1 (metrics viewing) is UI-only navigation — no automation needed.
+# Solver source: final NLP + gateway state from adoc role=execute blocks.
+
+- name: Module 07 Solve
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+    # ── Quest 2, Step 1: Add output_statistics to NLP config ────────────────
+    # Final state: all 5 detectors
+    # regex_competitor + prompt_injection + language_detection + hap + output_statistics
+    - name: Apply fms-orchestr8-config-nlp with output_statistics detector (final state)
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: fms-orchestr8-config-nlp
+            namespace: "{{ student_ns | default('default', true) | trim }}"
+          data:
+            config.yaml: |
+              passthrough_headers:
+                - authorization
+              tls:
+                external_llm:
+                  insecure: true
+                  cert_path: /dev/null
+              chunkers:
+                sentence:
+                  type: sentence
+                  service:
+                      hostname: chunker-service.gaas.svc.cluster.local
+                      port: 8085
+              openai:
+                service:
+                  hostname: granite-3-2-8b-instruct-predictor-maas-apicast-production.apps.maas.redhatworkshops.io
+                  port: 443
+                  tls: external_llm
+              detectors:
+                regex_competitor:
+                  type: text_contents
+                  service:
+                    hostname: "127.0.0.1"
+                    port: 8080
+                  chunker_id: sentence
+                  default_threshold: 0.5
+                prompt_injection:
+                  type: text_contents
+                  service:
+                    hostname: prompt-injection-detector-predictor.gaas.svc.cluster.local
+                    port: 8000
+                  chunker_id: sentence
+                  default_threshold: 0.5
+                language_detection:
+                  type: text_contents
+                  service:
+                    hostname: lingua-detector.gaas.svc.cluster.local
+                    port: 8080
+                  chunker_id: sentence
+                  default_threshold: 0.88
+                hap:
+                  type: text_contents
+                  service:
+                    hostname: guardrails-detector-ibm-hap-predictor.gaas.svc.cluster.local
+                    port: 8000
+                  chunker_id: sentence
+                  default_threshold: 0.5
+                output_statistics:
+                  type: text_contents
+                  service:
+                    hostname: "127.0.0.1"
+                    port: 8080
+                  chunker_id: sentence
+                  default_threshold: 0.5
+
+    # ── Quest 2, Step 2: Add output_statistics to gateway config ────────────
+    # output_statistics: input: false, output: true — output only, with refusal_tracker
+    - name: Apply fms-orchestr8-config-gateway with output_statistics detector (final state)
+      kubernetes.core.k8s:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        state: present
+        definition:
+          apiVersion: v1
+          kind: ConfigMap
+          metadata:
+            name: fms-orchestr8-config-gateway
+            namespace: "{{ student_ns | default('default', true) | trim }}"
+            labels:
+              app: fmstack-nlp
+          data:
+            config.yaml: |
+              orchestrator:
+                host: "localhost"
+                port: 8032
+              detectors:
+                - name: regex_competitor
+                  input: true
+                  output: true
+                  detector_params:
+                    regex:
+                      - (?i)\b(orange|apple|nectarine|plum|apricot|banana|grape|melon|pineapple|lime)s?\b
+                - name: prompt_injection
+                  input: true
+                  output: false
+                  detector_params: {}
+                - name: language_detection
+                  input: true
+                  output: true
+                  detector_params: {}
+                - name: hap
+                  input: true
+                  output: true
+                  detector_params: {}
+                - name: output_statistics
+                  input: false
+                  output: true
+                  detector_params:
+                    custom:
+                      - refusal_tracker
+              routes:
+                - name: all
+                  detectors:
+                    - regex_competitor
+                    - prompt_injection
+                    - language_detection
+                    - hap
+                    - output_statistics
+                - name: passthrough
+                  detectors:
+
+    # ── Quest 2, Step 3: Wait for TrustyAI to auto-restart ──────────────────
+    - name: Wait for guardrails-orchestrator to restart with output_statistics detector
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+        validate_certs: false
+        api_version: apps/v1
+        kind: Deployment
+        name: guardrails-orchestrator
+        namespace: "{{ student_ns | default('default', true) | trim }}"
+      register: r_guardrails_deploy
+      until: >-
+        r_guardrails_deploy.resources | length > 0 and
+        (r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int) >= 1
+      retries: 36
+      delay: 5
+
+    # ── Report ───────────────────────────────────────────────────────────────
+    - name: Report solve status
+      ansible.builtin.debug:
+        msg: |
+          fms-orchestr8-config-nlp (output_statistics): ok
+          fms-orchestr8-config-gateway (output_statistics + refusal_tracker): ok
+          guardrails-orchestrator ready: {{ 'ok' if (r_guardrails_deploy.resources | length > 0 and r_guardrails_deploy.resources[0].status.readyReplicas | default(0) | int >= 1) else 'NOT ready' }}
