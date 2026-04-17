@@ -278,12 +278,81 @@ image:prompt-dashboard.png[Prompt added]
 Using metrics and monitoring are crucial. Detections are only a first step, but with no monitoring we can never be certain that they work. 
 Seeing is believing. And it opens up a world of possibilities of creating Alerts and automated response flows when using a lot of OpenShifts native features. 
 
-_You gaze far into the distance. It has been a journey, but you know that security is never a destination but a never-ending journey._
+
+_You gaze far into the distance. It has been a journey, but you know that security is not a destination but a never-ending journey._
 
 
 _What the future holds, no one knows. But that's what makes this field so exciting and wonderful._ 
 
 _You take a sip of your brew. Yes, back to work._ 
+
+
+== Well well well... 
+
+You thought we were finished, didnt you? But this is not the time to go epilogue yet! 
+
+Up until now, we have been testing and evaluating our defenses manually, writing prompts by hand and having a look at the output. 
+But what if we want to test a hundred prompts? Or a thousands? Or have automated checks that trigger regularly over time and scan?
+
+Doing this by hand will not do. We want to automate the testing of attack prompts on our entire system and get results presented to us! 
+
+Lets do that. 
+For this step, we are going to jump into OpenShift AI. Yippie!
+
+_In your cluster console, you press the 3x3 dotted symbol and click on "OpenShift AI"._
+
+
+PLACEHOLDER IMAGE
+
+_You are prompted to login, using the same credentials as when you logged into OpenShift._
+
+** username:
++
+[source,text,role=execute,subs="attributes"]
+----
+{user}
+----
+** password :
++
+[source,text,role=execute,subs="attributes"]
+----
+{password}
+----
+
+_You are looking at a dashboard similar to this._ 
+
+PLACEHOLDER IMAGE 
+
+Welcome to OpenShift AI, our end to end platform for lifecycle managment and development of things machine learning and AI. 
+It is also here, that the LLM being used is hosted, as well as our guardian models are hosted. They are just not visible to you.
+You can only see your own projects. 
+
+As you can see, there is already a project created for you. Let's have a closer look.
+
+_You press the higlested blue line of your project._ 
+
+PLACEHOLDER IMAGE
+
+You are looking at a similar view, inside your specific project. In OpenShift AI, you can have many different projects running. Let's take a quick overview look at what we see. 
+
+PLACEHOLDER IMAGE 
+
+In the meny we have "Workbenches", this is our interactive developer environments (IDEs) where we write code, prototype and create pipeline scripts. We also have "Pipelines" for all our runs that we can automate as well. Thereafter, you see "Deployments", it is here we put our models and can give access and use them outside of our notebooks.
+
+"Cluster storage" is the storage that we have access to in our "Workbenches", in "Connections" we can create paths to external or other internal storage. It can be data, other models and we can also upload to there. Under "Permissions" you can see who and what groups have access to your specific project. In "Settings", you can configure TrustyAI to monitor for model drift and data drift for delpoyed model. This is the other fantastic part of TrustyAI.
+
+But today, we are going to have fun inside the Workbenches!
+
+_You click "Workbenches"._ 
+
+PLACEHOLDER IMAGE 
+
+You are presented with a similar view and can see there is already a workbench initialized for you, running. 
+You can of course have several different IDEs and workbenches in one project. In our case, our workbench is a code server. 
+
+_You press the blue highlihted line and get directed into a new tab._
+
+
 
 == The Reality of having LLMs as judges
 
