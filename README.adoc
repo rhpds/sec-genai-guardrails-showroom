@@ -1,4 +1,4 @@
-= Showroom Template
+= Welcome to the lab instructions for the Guardrail Lab!
 
 A template for creating Red Hat Showroom lab guides and demo content, built with https://antora.org[Antora].
 

@@ -381,12 +381,66 @@ _You copy the following block of code to export the URL, you also confirm that i
 
 [source,bash,role=execute]
 ----
-export PEACHPAL_URL=http://peachpal-{user}-peachpal.svc.cluster.local:8080
+export PEACHPAL_URL=https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
 echo $PEACHPAL_URL
 spikee test --dataset datasets/peachpal_dataset.jsonl  --target peachpal
 ----
 
+The test will take anything from 15 seconds to 2 minutes based on the load on the cluster. When it's finished
+There is a progess bar to follow in your terminal window.
+
+When it's finished, you will see a new folder pop up in your IDE. 
+
+_You press "results" and then the "results_peachpal-url=xxxxxx.jsonl" file. You see the file pop up in your IDE._
+image:results.png[Results]
+
+Here you can see response times as well as if the attack was a success. But reading this type of file is not fun, or scalable when you have large files. We can make this easier. 
+
+_You copy this code block, past it into the terminal to see some general statistics._
+[source,bash,role=execute]
+----
+spikee results analyze --result-file  results/results_peachpal-url=*.jsonl  | sed -n '1,/=== Breakdown by Jailbreak Type ===/p' | head -n -1
+----
+
+We can also see which ones suceeded and which one failed.
+
+_You paste this code block into the terminal and execute, to see which prompts succeeded getting blocked by guardrails._
+
+[source,bash,role=execute]
+----
+cat results/results_peachpal-url=*.jsonl   | grep "\"success\": true" | jq '{input, response}'
+----
+
+_You past this code block into the terminal and execute, to see which prompts failed getting blocked by guardrails._
+[source,bash,role=execute]
+----
+cat results/results_peachpal-url=*.jsonl   | grep "\"success\": false" | jq '{input, response}'
+----
+
+Fantastic work! 
+
+== The Epilogue 
+
+As you can gather, our story at Peach Happens Produce comes to an end. This company have faced real life problems, taken from events collected in the last 3-4 years.
+
+
+Being able to define what topics are allowed is just as important as defining what is not allowed for the AI-system. It should be included in the start of any project, for how else would be know to guardrail it?
+Early and iterative testing allows us to detect problems early, and this is true for AI-systems as well. Creating automation and alerts will help us offload when things scale. 
+
+
+
+Your story, however, is just getting started. 
+The implementation of guardrails are easier then people think. 
+The hard part is choosing which ones and finding the golden balance between usability and lockdown.
+
+What inspiration do you take from this? What else could we have done here? 
+Are there guardrails missing that you would have implemented? What questions have this lab raised for you?
+
+Let the journey begin!
+
 == The Reality of having LLMs as judges
+
+**TL;DR** LLMs are highly customsable, but compute intensive.
 
 There are many advantages to using LLMs to judge input and output response. 
 They have a stronger semantic understanding and can understand context, intent and paraphrasing better than rules, keyword filters and classifier models. 
@@ -400,6 +454,9 @@ There is also a chance to bypass LLM-judges via prompt injection or attacks that
 
 LLM-decision may also be harder to trace and explain, especially in compliance-sensitive environments.
 
+== Feedback
+
+Please leave feedback and PRs are encouraged. All perspectives and input are important! 
 ++++
 <div class="solve-button-placeholder" data-module="module-07"></div>
 ++++
