@@ -381,7 +381,7 @@ _You copy the following block of code to export the URL, you also confirm that i
 
 [source,bash,role=execute]
 ----
-export PEACHPAL_URL=http://peachpal-{user}-peachpal.svc.cluster.local:8080
+export PEACHPAL_URL=https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
 echo $PEACHPAL_URL
 spikee test --dataset datasets/peachpal_dataset.jsonl  --target peachpal
 ----
