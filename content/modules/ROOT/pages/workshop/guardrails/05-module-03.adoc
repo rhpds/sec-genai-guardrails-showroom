@@ -181,12 +181,12 @@ Users can also mix languages in the same sentence, since words are borrowed from
 
 Furthermore, language is a living topic that evolves. Words disappear and new words get adopted with time and it's not impossible that language detectors have to be tweaked as time progresses.
 
+'''
+xref:workshop/guardrails/06-module-01.adoc[Next: A Safe Harvest ->]
+
 ++++
 <div class="solve-button-placeholder" data-module="module-05"></div>
 ++++
 ++++
 <div class="validate-button-placeholder" data-module="module-05"></div>
 ++++
-
-'''
-xref:workshop/guardrails/06-module-01.adoc[Next: A Safe Harvest ->]

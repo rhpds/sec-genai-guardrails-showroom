@@ -86,7 +86,7 @@ detectors:
       hostname: guardrails-detector-ibm-hap-predictor.gaas.svc.cluster.local
       port: 8000
     chunker_id: sentence
-    default_threshold: 0.5
+    default_threshold: 0.65
 ----
 
 _You delete the already existing block of text and paste the new full block. Then hit save._
@@ -190,12 +190,12 @@ They can also produce false negatives, where harmful content is phrased indirect
 
 Finally, classifiers typically detect surface-level toxicity rather than deeper intent, meaning sophisticated or subtle innuendos may evade detection.
 
+'''
+xref:workshop/guardrails/07-module-03.adoc[Next: The Orchard Offensive ->]
+
 ++++
 <div class="solve-button-placeholder" data-module="module-06"></div>
 ++++
 ++++
 <div class="validate-button-placeholder" data-module="module-06"></div>
 ++++
-
-'''
-xref:workshop/guardrails/07-module-03.adoc[Next: The Orchard Offensive ->]

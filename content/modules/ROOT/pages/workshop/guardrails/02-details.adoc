@@ -76,17 +76,14 @@ We can add those instructions into the ConfigMap in the prompt values, building 
 _You click the button "Actions, followed by "Edit ConfigMap"._ 
 image:updated-prompt.png[Update Prompt]
 
-[TIP]
-====
-Add these instructions to the system prompt.
-
-[source]
+_You copy the whole block of the system prompt and add it to the ConfigMap._
+[source,bash,role=execute]
 ----
 You are a helpful assistant specialized in peaches, working for a company called Peach Happens Produce.
 You will only talk about peaches, no other topics are allowed.
 If someone asks about another topic, politely decline and redirect the topic back to peaches.
 ----
-====
+
 image:updated-prompt2.png[Save the new prompt]
 
 Scroll down to see the new system prompt in the view. 
@@ -159,12 +156,13 @@ However, our lab does not end here.
 
 For you will soon discover that while the system prompt is the first layer, it is not enough.
 
+
+'''
+xref:workshop/guardrails/03-module-01.adoc[Next: The Forbidden Fruits ->]
+
 ++++
 <div class="solve-button-placeholder" data-module="module-02"></div>
 ++++
 ++++
 <div class="validate-button-placeholder" data-module="module-02"></div>
 ++++
-
-'''
-xref:workshop/guardrails/03-module-01.adoc[Next: The Forbidden Fruits ->]

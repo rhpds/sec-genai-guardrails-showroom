@@ -71,8 +71,8 @@ Here, you can see all the detectors that we deployed with a more easily grasped 
 . We get logs and metrics that can be a part of compliance reporting. Proving that Peach Happens Produce are actively blocking and monitoring attempts.
 . We can use them to optimise user experience. Too many false positive (blocking when it was okay) can frustrate the users and with monitoring we can finetune the guardrails over time.
 
-However, if you looked closely at the dashboard, you might have found a fifth metric that currently has no values. It belongs to the first defence layer we put up. The system prompt. 
-
+However, there is one more denial-system that is currently not being monitored. That is when the LLM denies giving an answer do to it not complying with the system prompt instructions.
+We call this system prompt refusal. Not capturing when the request
 
 We have external AI models blocking, but, the LLM is also able to deny requests. If a prompt didn't trigger any of the guardrails on the way in, they may still get denied by the system prompt. 
 This is an important metric for us, because otherwise it may look like we are approving more requests than we actually are. 
@@ -158,7 +158,7 @@ detectors:
       hostname: guardrails-detector-ibm-hap-predictor.gaas.svc.cluster.local
       port: 8000
     chunker_id: sentence
-    default_threshold: 0.5
+    default_threshold: 0.65
   output_statistics:
     type: text_contents
     service:
@@ -302,7 +302,7 @@ For this step, we are going to jump into OpenShift AI. Yippie!
 _In your cluster console, you press the 3x3 dotted symbol and click on "OpenShift AI"._
 
 
-PLACEHOLDER IMAGE
+image:3x3clickmeny.png[Click 3x3]
 
 _You are prompted to login, using the same credentials as when you logged into OpenShift._
 
@@ -319,23 +319,17 @@ _You are prompted to login, using the same credentials as when you logged into O
 {password}
 ----
 
-_You are looking at a dashboard similar to this._ 
-
-PLACEHOLDER IMAGE 
 
 Welcome to OpenShift AI, our end to end platform for lifecycle managment and development of things machine learning and AI. 
 It is also here, that the LLM being used is hosted, as well as our guardian models are hosted. They are just not visible to you.
-You can only see your own projects. 
+You can only see your own projects.  
 
-As you can see, there is already a project created for you. Let's have a closer look.
+As you can see, there is already a project created for you. Let's have a closer look. Also, feel free to switch to Dark Mode. 
 
 _You press the higlested blue line of your project._ 
+image:clickproject.png[Click Project] 
 
-PLACEHOLDER IMAGE
-
-You are looking at a similar view, inside your specific project. In OpenShift AI, you can have many different projects running. Let's take a quick overview look at what we see. 
-
-PLACEHOLDER IMAGE 
+Welcome to your specific project! 
 
 In the meny we have "Workbenches", this is our interactive developer environments (IDEs) where we write code, prototype and create pipeline scripts. We also have "Pipelines" for all our runs that we can automate as well. Thereafter, you see "Deployments", it is here we put our models and can give access and use them outside of our notebooks.
 
@@ -345,14 +339,52 @@ But today, we are going to have fun inside the Workbenches!
 
 _You click "Workbenches"._ 
 
-PLACEHOLDER IMAGE 
+image:pressworkbenchs.png[Click Workbenches]
 
 You are presented with a similar view and can see there is already a workbench initialized for you, running. 
 You can of course have several different IDEs and workbenches in one project. In our case, our workbench is a code server. 
 
 _You press the blue highlihted line and get directed into a new tab._
 
+image:opennotebook.png[Open code server]
 
+Welcome to your interactive developer environment! Here we can create and run scripts, which helps us in development and testing.
+Feel free to choose another colour theme, and then when you are ready, open a terminal. 
+
+Thats right, we are going CLI people!
+
+image:welcometoide.png[Open Terminal]
+
+An empty terminal should have open in the lower mid corner of your IDE. But our environment is empty. Luckily for us, our security collegues have prepared a repo for us to use with code and tools to test our guardrails.
+
+_You copy the below code to install the tooling and copy the git-repo with prepared code. You paste it into the terminal and hit enter. You ignore "Errors" thrown by the installation._ 
+
+[source,bash,role=execute]
+----
+pip -q install spikee==0.7.2
+git clone https://github.com/ckavili/spikee-peachpal.git
+cd spikee-peachpal
+----
+
+We now have Simple Prompt Injection Kit for Evaluation and Exploitation (Spikee), an Open Source tool made for pentesting where we can send a predefined dataset against a target, and evalute the responses.
+We also now have the repo with the dataset and target script. 
+
+Lets have a look at what the dataset looks like! 
+
+_You press "spikee-peachpal", followed by "datasets" and then "peachpal_dataset.jsonl". You see the file open in the window above the terminal._
+image:dataset.png[Dataset]
+
+Here, you see the prompts that we will be sending, specifically tailored for our specific use case using classical known LLM attack patterns. These type of datasets evolve and grow over time. 
+Take a minute to scroll and have a look! When you are satiesfied, it's time to give Spikee our target and run the script! 
+
+_You copy the following block of code to export the URL, you also confirm that it's correct._
+
+[source,bash,role=execute]
+----
+export PEACHPAL_URL=http://peachpal-{user}-peachpal.svc.cluster.local:8080
+echo $PEACHPAL_URL
+spikee test --dataset datasets/peachpal_dataset.jsonl  --target peachpal
+----
 
 == The Reality of having LLMs as judges
 
