@@ -1,6 +1,6 @@
 /* always show copy/paste buttons on code blocks */
 .doc .source-toolbox {
-  visibility: visible;
+  visibility: visible !important;
 }
 
 /* left align items inside imageblock */
