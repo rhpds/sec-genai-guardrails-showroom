@@ -39,6 +39,7 @@ _You go to "Actions" and then press "Edit ConfigMap"._
 image:go-to-edit-nlp-config.png[Edit NLP config]
 
 _You copy the following block of code._
+[.console-input]
 [source,bash,role=execute]
 ----
 passthrough_headers:
@@ -101,6 +102,7 @@ _You press "Actions" and then "Edit ConfigMap"._
 image:edit-regex.png[Edit Gateway]
 
 _You copy the following block of code._
+[.console-input]
 [source,bash,role=execute]
 ----
 orchestrator:

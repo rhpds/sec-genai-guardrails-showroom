@@ -24,7 +24,8 @@ We can find them in OpenShift and have a look at it.
 _You press "Observe", then "Metrics and check that you are in "userX-peachpal" namespace._ 
 image:go-to-metrics.png[Go to Metrics]
 
-_You copy this metric query and hit "Enter"._ 
+_You copy this metric query and hit "Enter"._
+[.console-input]
 [source,bash,role=execute]
 ----
 guardrail_requests_total
@@ -35,8 +36,9 @@ image:guardrail-metrics-total.png[Total Guardrail Metrics]
 Here we can see the amount of total requests have been sent to the guardrails. 
 Lets try another metric! 
 
-_You copy this block and run the query again._ 
+_You copy this block and run the query again._
 
+[.console-input]
 [source,bash,role=execute]
 ----
 guardrail_detections_by_detector
@@ -50,6 +52,7 @@ We also have metrics of which direction a detector block, meaning if it was inpu
 We can take a look at specifically, the prompt injection. 
 
 _You copy this command and rerun the query._
+[.console-input]
 [source,bash,role=execute]
 ----
 guardrail_detections_total{detector="prompt_injection",direction="input"}
@@ -111,6 +114,7 @@ _You press "Actions" and then "Edit ConfigMap"._
 image:go-to-edit-nlp-config.png[Edit NLP config]
 
 _You copy the following block of code._
+[.console-input]
 [source,bash,role=execute]
 ----
 passthrough_headers:
@@ -180,6 +184,7 @@ _You press "Actions" and then "Edit ConfigMap"._
 image:edit-regex.png[Edit Gateway]
 
 _You copy the following block of code._
+[.console-input]
 [source,bash,role=execute]
 ----
 orchestrator:
@@ -253,6 +258,7 @@ _You press "Observe" and then "Metrics"._
 image:go-to-metrics.png[Go to Metrics]
 
 _You copy this command and run the query._
+[.console-input]
 [source,bash,role=execute]
 ----
 trustyai_guardrails_requests_total{detector_kind="custom",detector_name="refusal_tracker"}
@@ -308,12 +314,14 @@ _You are prompted to login, using the same credentials as when you logged into O
 
 ** username:
 +
+[.console-input]
 [source,text,role=execute,subs="attributes"]
 ----
 {user}
 ----
 ** password :
 +
+[.console-input]
 [source,text,role=execute,subs="attributes"]
 ----
 {password}
@@ -357,8 +365,9 @@ image:welcometoide.png[Open Terminal]
 
 An empty terminal should have open in the lower mid corner of your IDE. But our environment is empty. Luckily for us, our security collegues have prepared a repo for us to use with code and tools to test our guardrails.
 
-_You copy the below code to install the tooling and copy the git-repo with prepared code. You paste it into the terminal and hit enter. You ignore "Errors" thrown by the installation._ 
+_You copy the below code to install the tooling and copy the git-repo with prepared code. You paste it into the terminal and hit enter. You ignore "Errors" thrown by the installation._
 
+[.console-input]
 [source,bash,role=execute]
 ----
 pip -q install spikee==0.7.2
@@ -379,6 +388,7 @@ Take a minute to scroll and have a look! When you are satiesfied, it's time to g
 
 _You copy the following block of code to export the URL, you also confirm that it's correct._
 
+[.console-input]
 [source,bash,role=execute]
 ----
 export PEACHPAL_URL=https://peachpal-{user}-peachpal.{openshift_cluster_ingress_domain}
@@ -397,6 +407,7 @@ image:results.png[Results]
 Here you can see response times as well as if the attack was a success. But reading this type of file is not fun, or scalable when you have large files. We can make this easier. 
 
 _You copy this code block, past it into the terminal to see some general statistics._
+[.console-input]
 [source,bash,role=execute]
 ----
 spikee results analyze --result-file  results/results_peachpal-url=*.jsonl  | sed -n '1,/=== Breakdown by Jailbreak Type ===/p' | head -n -1
@@ -406,12 +417,14 @@ We can also see which ones suceeded and which one failed.
 
 _You paste this code block into the terminal and execute, to see which prompts succeeded getting blocked by guardrails._
 
+[.console-input]
 [source,bash,role=execute]
 ----
 cat results/results_peachpal-url=*.jsonl   | grep "\"success\": true" | jq '{input, response}'
 ----
 
 _You past this code block into the terminal and execute, to see which prompts failed getting blocked by guardrails._
+[.console-input]
 [source,bash,role=execute]
 ----
 cat results/results_peachpal-url=*.jsonl   | grep "\"success\": false" | jq '{input, response}'

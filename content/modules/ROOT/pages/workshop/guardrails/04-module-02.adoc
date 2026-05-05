@@ -113,8 +113,9 @@ We need to give the orchestrator information of where to send traffic to the pro
 _You press "Actions" and then "Edit ConfigMap"._
 image:go-to-edit-nlp-config.png[Edit config]
 
-_You copy the information about where to send the traffic to the prompt injection detector and paste it into the orchestrator ConfigMap. Then hit "Save"._ 
+_You copy the information about where to send the traffic to the prompt injection detector and paste it into the orchestrator ConfigMap. Then hit "Save"._
 
+[.console-input]
 [source,bash,role=execute]
 ----
 passthrough_headers:
@@ -163,6 +164,7 @@ _You press "Actions" and "Edit ConfigMap"._
 image:edit-regex.png[Edit gateway]
 
 _You copy this whole chunk of text._
+[.console-input]
 [source,bash,role=execute]
 ----
 orchestrator:
