@@ -28,15 +28,13 @@ image::OCP-login.png[OCP Login]
 
 ** username:
 +
-[.console-input]
-[source,text,role=execute,subs="attributes"]
+[source,text,role="console-input execute",subs="attributes"]
 ----
 {user}
 ----
 ** password :
 +
-[.console-input]
-[source,text,role=execute,subs="attributes"]
+[source,text,role="console-input execute",subs="attributes"]
 ----
 {password}
 ----
@@ -79,8 +77,7 @@ _You click the button "Actions, followed by "Edit ConfigMap"._
 image:updated-prompt.png[Update Prompt]
 
 _You copy the whole block of the system prompt and add it to the ConfigMap._
-[.console-input]
-[source,bash,role=execute]
+[source,bash,role="console-input execute"]
 ----
 You are a helpful assistant specialized in peaches, working for a company called Peach Happens Produce.
 You will only talk about peaches, no other topics are allowed.
