@@ -1,3 +1,8 @@
+/* always show copy/paste buttons on code blocks */
+.doc .source-toolbox {
+  visibility: visible;
+}
+
 /* left align items inside imageblock */
 .doc .imageblock {
     align-items: flex-start;
